@@ -8,7 +8,7 @@ export const Container = styled.div`
 export const ListContainer = styled.div`
   column-gap: 16px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(368px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   row-gap: 16px;
   width: 100%;
 `;

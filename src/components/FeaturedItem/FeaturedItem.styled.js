@@ -28,7 +28,9 @@ export const CategoryText = styled.p`
 `;
 
 export const Picture = styled.img`
-  max-height: 290px;
+  height: auto;
+  max-width: 250px;
+  width: 100%;
 `;
 
 export const Title = styled.p`
