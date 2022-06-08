@@ -1,21 +1,36 @@
-import React from "react";
-import { Banner, Container, Slider, Title } from "./FeaturedBanner.styled";
+import Slider from "components/Slider";
+import bannerModel from "models/bannerModel";
+import PropTypes from "prop-types";
+import React, { useMemo } from "react";
+import { Container, Title } from "./FeaturedBanner.styled";
 
 const FeaturedBanner = ({ itemList }) => {
+  const bannerList = useMemo(
+    () =>
+      itemList.map(({ id, data, href }) => {
+        const {
+          main_image: { alt, url },
+        } = data;
+        return {
+          alt,
+          elementUrl: href,
+          id,
+          imageUrl: url,
+        };
+      }),
+    [itemList]
+  );
+
   return (
     <Container>
       <Title>Featured Banners</Title>
-      <Slider>
-        {itemList.map((item) => {
-          const { data } = item;
-          const {
-            main_image: { alt, url },
-          } = data;
-          return <Banner alt={alt} key={item.id} src={url} />;
-        })}
-      </Slider>
+      <Slider itemList={bannerList} />
     </Container>
   );
+};
+
+FeaturedBanner.prototype = {
+  itemList: PropTypes.arrayOf(bannerModel).isRequired,
 };
 
 export default FeaturedBanner;

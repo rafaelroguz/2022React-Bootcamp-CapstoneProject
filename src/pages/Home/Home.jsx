@@ -10,8 +10,8 @@ import Carousel from "components/Carousel";
 
 export const Home = () => (
   <Layout>
-    <Carousel itemList={productCategories.results} />
     <FeaturedBanner itemList={featuredBanners.results} />
+    <Carousel itemList={productCategories.results} />
     <FeaturedProducts itemList={featuredProducts.results} />
   </Layout>
 );
