@@ -1,22 +1,23 @@
-import CarouselItem from "components/CarouselItem";
-import React, { Fragment, useState } from "react";
-import { Button, Container, MobileContainer, Title } from "./Carousel.styled";
 import { ReactComponent as LeftChevronIcon } from "assets/svg/leftchevron.svg";
 import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg";
-import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
-import screenSizes from "styles/screenSizes";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import {
+  Container,
+  ControlButton,
+  DisplayedImage,
+  ImageLink,
+} from "./Carousel.styled";
 
 const Carousel = ({ itemList }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const screenWidth = useGetScreenWidth();
-  const isSmallDevice = screenWidth <= screenSizes.tablet;
-
-  const currentItem = itemList[currentIndex];
   const {
-    data: { main_image, name },
-    href,
-  } = currentItem;
-  const { alt, url } = main_image;
+    alt = "",
+    elementUrl = "",
+    id = "",
+    imageUrl = "",
+    name = "",
+  } = itemList[currentIndex] || {};
 
   const handleClickNext = () => {
     const isLastItem = currentIndex + 1 === itemList.length;
@@ -30,42 +31,33 @@ const Carousel = ({ itemList }) => {
       : setCurrentIndex((state) => state - 1);
   };
 
-  const renderMobile = () => (
-    <MobileContainer>
-      <CarouselItem alt={alt} categoryUrl={href} imageUrl={url} name={name} />
-      <Container>
-        <Button onClick={handleClickPrevious}>
-          {/* <Icon alt="Previous Category" src={leftChevron} /> */}
-          <LeftChevronIcon />
-        </Button>
-        <Button onClick={handleClickNext}>
-          {/* <Icon alt="Previous Category" src={rightChevron} /> */}
-          <RightChevronIcon />
-        </Button>
-      </Container>
-    </MobileContainer>
-  );
-
-  const renderDesktop = () => (
+  return (
     <Container>
-      <Button onClick={handleClickPrevious}>
-        {/* <Icon alt="Previous Category" src={leftChevron} /> */}
+      <ControlButton onClick={handleClickPrevious}>
         <LeftChevronIcon />
-      </Button>
-      <CarouselItem alt={alt} categoryUrl={href} imageUrl={url} name={name} />
-      <Button onClick={handleClickNext}>
-        {/* <Icon alt="Previous Category" src={rightChevron} /> */}
+      </ControlButton>
+      <ImageLink href={elementUrl}>
+        <DisplayedImage alt={alt} src={imageUrl} />
+      </ImageLink>
+      <ControlButton onClick={handleClickNext}>
         <RightChevronIcon />
-      </Button>
+      </ControlButton>
     </Container>
   );
+};
 
-  return (
-    <Fragment>
-      <Title>Product Categories</Title>
-      {isSmallDevice ? renderMobile() : renderDesktop()}
-    </Fragment>
-  );
+Carousel.propType = {
+  itemList: {
+    itemList: PropTypes.arrayOf(
+      PropTypes.shape({
+        alt: PropTypes.string.isRequired,
+        elementUrl: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        imageUrl: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+  },
 };
 
 export default Carousel;

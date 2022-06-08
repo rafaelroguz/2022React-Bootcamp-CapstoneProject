@@ -6,12 +6,12 @@ import featuredProducts from "mocks/en-us/featured-products.json";
 import productCategories from "mocks/en-us/product-categories.json";
 import FeaturedProducts from "components/FeaturedProducts";
 import FeaturedBanner from "components/FeaturedBanner";
-import Carousel from "components/Carousel";
+import ProductCategories from "components/ProductCategories";
 
 export const Home = () => (
   <Layout>
     <FeaturedBanner itemList={featuredBanners.results} />
-    <Carousel itemList={productCategories.results} />
+    <ProductCategories itemList={productCategories.results} />
     <FeaturedProducts itemList={featuredProducts.results} />
   </Layout>
 );

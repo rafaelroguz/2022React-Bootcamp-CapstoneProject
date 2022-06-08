@@ -2,6 +2,7 @@ import FeaturedItem from "components/FeaturedItem";
 import React from "react";
 import { Container, ListContainer, Title } from "./FeaturedProducts.styled";
 
+// TODO: create PropTypes "interface" to itemList
 const FeaturedProducts = ({ itemList }) => (
   <Container>
     <Title>Featured Products</Title>

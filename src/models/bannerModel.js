@@ -1,13 +1,10 @@
 import PropTypes from "prop-types";
-import descriptionModel from "./descriptionModel";
-import mainImageModel from "./mainImageModel";
+import bannerDataModel from "./bannerDataModel";
+import resultModel from "./resultModel";
 
 const bannerModel = {
-  title: PropTypes.string.isRequired,
-  description: descriptionModel.isRequired,
-  cta_link: PropTypes.string.isRequired,
-  cta_target: PropTypes.string.isRequired,
-  main_image: mainImageModel.isRequired,
+  ...resultModel,
+  data: PropTypes.shape(bannerDataModel).isRequired,
 };
 
 export default bannerModel;

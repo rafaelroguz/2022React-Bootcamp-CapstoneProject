@@ -30,7 +30,7 @@ const FeaturedBanner = ({ itemList }) => {
 };
 
 FeaturedBanner.prototype = {
-  itemList: PropTypes.arrayOf(bannerModel).isRequired,
+  itemList: PropTypes.arrayOf(PropTypes.shape(bannerModel)).isRequired,
 };
 
 export default FeaturedBanner;
