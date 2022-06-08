@@ -11,7 +11,7 @@ import ProductCategories from "components/ProductCategories";
 export const Home = () => (
   <Layout>
     <FeaturedBanner itemList={featuredBanners.results} />
-    <ProductCategories itemList={productCategories.results} />
+    <ProductCategories categoryList={productCategories.results} />
     <FeaturedProducts itemList={featuredProducts.results} />
   </Layout>
 );
