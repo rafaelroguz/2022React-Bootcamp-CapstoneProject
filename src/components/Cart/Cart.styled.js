@@ -4,6 +4,7 @@ import colors from "styles/colors";
 export const CartLink = styled.a`
   align-items: center;
   display: flex;
+  height: 100%;
   justify-content: center;
   text-decoration: none;
   white-space: nowrap;

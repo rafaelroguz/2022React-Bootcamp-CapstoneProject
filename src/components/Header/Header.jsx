@@ -10,20 +10,19 @@ import { ButtonsRow, Container, Content, SearchBarRow } from "./Header.styled";
 const Header = () => {
   const screenWidth = useGetScreenWidth();
   const isSmallDevice = screenWidth <= screenSizes.tablet;
+  const isMobile = screenWidth <= screenSizes.mobile;
 
   const handleSearch = (inputValue) => {
     // TODO: add search functionality
     console.log(inputValue);
   };
 
-  console.log(isSmallDevice);
-
   return (
     <Container>
       <Content $isSmallDevice={isSmallDevice}>
         {isSmallDevice ? (
-          <ButtonsRow>
-            <Logo />
+          <ButtonsRow $isMobile={isMobile}>
+            <Logo isMobile={isMobile} />
             <Cart />
           </ButtonsRow>
         ) : (

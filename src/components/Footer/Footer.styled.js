@@ -1,17 +1,13 @@
 import styled from "styled-components";
+import colors from "styles/colors";
 
 export const Container = styled.footer`
-  align-items: center;
   background-color: white;
-  display: flex;
-  justify-content: center;
-  max-width: 100%;
-  /* padding: 16px; */
-  position: relative;
-  width: 100%;
-`;
-
-export const Text = styled.p`
+  box-sizing: border-box;
+  color: ${colors.textPrimary};
+  font-weight: bold;
+  margin: 0;
+  padding: 16px;
   text-align: center;
-  word-wrap: break-word;
+  width: 100%;
 `;

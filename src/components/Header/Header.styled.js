@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const ButtonsRow = styled.div`
   display: flex;
+  flex-direction: ${({ $isMobile }) => ($isMobile ? "column" : "row")};
   justify-content: space-between;
   width: 100%;
 `;

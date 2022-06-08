@@ -5,5 +5,5 @@ export const LogoContainer = styled.div`
   display: flex;
   height: 48px;
   justify-content: center;
-  padding: 16px;
+  padding: ${({ $isMobile }) => ($isMobile ? "16px 16px 0 16px" : "16px")};
 `;
