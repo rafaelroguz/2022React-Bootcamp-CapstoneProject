@@ -1,12 +1,16 @@
 import React from "react";
-import { CartImage, Container, Text } from "./Cart.styled";
-import shopCart from "icons/shopCart.svg";
+import { CartLink, Container, IconContainer, Text } from "./Cart.styled";
 import { CART_ROUTE } from "utils/routes";
+import { ReactComponent as ShopCartIcon } from "assets/svg/shopCart.svg";
 
 const Cart = () => (
-  <Container href={CART_ROUTE}>
-    <CartImage src={shopCart} />
-    <Text>My Cart</Text>
+  <Container>
+    <CartLink href={CART_ROUTE}>
+      <IconContainer>
+        <ShopCartIcon />
+      </IconContainer>
+      <Text>My Cart</Text>
+    </CartLink>
   </Container>
 );
 

@@ -2,14 +2,15 @@ import React from "react";
 
 import Footer from "components/Footer";
 import Header from "components/Header";
-import { Container, Content } from "./Layout.styled";
+import { Main } from "./Layout.styled";
+import { Fragment } from "react/cjs/react.production.min";
 
-export const Layout = (props) => (
-  <Container>
+export const Layout = ({ children }) => (
+  <Fragment>
     <Header />
-    <Content>{props.children}</Content>
+    <Main>{children}</Main>
     <Footer />
-  </Container>
+  </Fragment>
 );
 
 export default Layout;

@@ -1,14 +1,8 @@
 import CarouselItem from "components/CarouselItem";
 import React, { Fragment, useState } from "react";
-import {
-  Button,
-  Container,
-  Icon,
-  MobileContainer,
-  Title,
-} from "./Carousel.styled";
-import leftChevron from "icons/leftchevron.svg";
-import rightChevron from "icons/rightchevron.svg";
+import { Button, Container, MobileContainer, Title } from "./Carousel.styled";
+import { ReactComponent as LeftChevronIcon } from "assets/svg/leftchevron.svg";
+import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg";
 import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
 import screenSizes from "styles/screenSizes";
 
@@ -41,10 +35,12 @@ const Carousel = ({ itemList }) => {
       <CarouselItem alt={alt} categoryUrl={href} imageUrl={url} name={name} />
       <Container>
         <Button onClick={handleClickPrevious}>
-          <Icon alt="Previous Category" src={leftChevron} />
+          {/* <Icon alt="Previous Category" src={leftChevron} /> */}
+          <LeftChevronIcon />
         </Button>
         <Button onClick={handleClickNext}>
-          <Icon alt="Previous Category" src={rightChevron} />
+          {/* <Icon alt="Previous Category" src={rightChevron} /> */}
+          <RightChevronIcon />
         </Button>
       </Container>
     </MobileContainer>
@@ -53,11 +49,13 @@ const Carousel = ({ itemList }) => {
   const renderDesktop = () => (
     <Container>
       <Button onClick={handleClickPrevious}>
-        <Icon alt="Previous Category" src={leftChevron} />
+        {/* <Icon alt="Previous Category" src={leftChevron} /> */}
+        <LeftChevronIcon />
       </Button>
       <CarouselItem alt={alt} categoryUrl={href} imageUrl={url} name={name} />
       <Button onClick={handleClickNext}>
-        <Icon alt="Previous Category" src={rightChevron} />
+        {/* <Icon alt="Previous Category" src={rightChevron} /> */}
+        <RightChevronIcon />
       </Button>
     </Container>
   );

@@ -1,12 +1,9 @@
 import styled from "styled-components";
 
-export const LogoImage = styled.img`
-  height: 32px;
-`;
-
-export const LogoLink = styled.a`
+export const LogoContainer = styled.div`
   align-items: center;
   display: flex;
-  max-height: 48px;
+  height: 48px;
+  justify-content: center;
   padding: 16px;
 `;

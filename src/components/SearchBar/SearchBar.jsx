@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Container,
-  SearchButton,
-  SearchImg,
-  SearchInput,
-} from "./SearchBar.styled";
-import searchIcon from "icons/searchIcon.svg";
+import { FormContainer, SearchButton, SearchInput } from "./SearchBar.styled";
+import { ReactComponent as SearchIcon } from "assets/svg/search.svg";
 import PropTypes from "prop-types";
 
 const SearchBar = ({ placeholder = "Search", onSearch }) => {
@@ -16,12 +11,12 @@ const SearchBar = ({ placeholder = "Search", onSearch }) => {
   };
 
   return (
-    <Container onSubmit={handleSubmit}>
+    <FormContainer onSubmit={handleSubmit}>
       <SearchInput placeholder={placeholder} />
       <SearchButton type="submit">
-        <SearchImg alt="search" src={searchIcon} />
+        <SearchIcon />
       </SearchButton>
-    </Container>
+    </FormContainer>
   );
 };
 

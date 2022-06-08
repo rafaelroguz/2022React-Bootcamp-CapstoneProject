@@ -1,12 +1,14 @@
 import React from "react";
-import logo from "icons/logo.svg";
-import { LogoImage, LogoLink } from "./Logo.styled";
+import { LogoContainer } from "./Logo.styled";
 import { MAIN_ROUTE } from "utils/routes";
+import { ReactComponent as CapstoneLogoIcon } from "assets/svg/capstonelogo.svg";
 
 const Logo = () => (
-  <LogoLink href={MAIN_ROUTE} id="logo">
-    <LogoImage alt="logo" src={logo} />
-  </LogoLink>
+  <LogoContainer>
+    <a href={MAIN_ROUTE} id="logo">
+      <CapstoneLogoIcon />
+    </a>
+  </LogoContainer>
 );
 
 export default Logo;

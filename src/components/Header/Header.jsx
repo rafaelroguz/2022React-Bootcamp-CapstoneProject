@@ -1,9 +1,10 @@
 import Cart from "components/Cart";
 import Logo from "components/Logo";
+import SearchBar from "components/SearchBar";
 import React, { Fragment } from "react";
 import screenSizes from "styles/screenSizes";
 import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
-import SearchInput from "../SearchBar/SearchBar";
+
 import { ButtonsRow, Container, Content, SearchBarRow } from "./Header.styled";
 
 const Header = () => {
@@ -30,14 +31,14 @@ const Header = () => {
         )}
         {isSmallDevice ? (
           <SearchBarRow>
-            <SearchInput
+            <SearchBar
               placeholder="Search any product"
               onSearch={handleSearch}
             />
           </SearchBarRow>
         ) : (
           <Fragment>
-            <SearchInput
+            <SearchBar
               placeholder="Search any product"
               onSearch={handleSearch}
             />
