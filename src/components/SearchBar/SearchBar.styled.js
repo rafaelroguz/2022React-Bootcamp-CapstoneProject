@@ -10,9 +10,10 @@ export const FormContainer = styled.form`
 export const SearchButton = styled.button`
   align-items: center;
   background-color: ${colors.secondary};
+  border: none;
+  border-radius: 0;
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
-  border: none;
   display: flex;
   height: 48px;
   justify-content: center;
@@ -31,8 +32,9 @@ export const SearchImg = styled.img`
 
 export const SearchInput = styled.input`
   border: 1px solid ${colors.secondary};
-  border-right: none;
+  border-radius: 0;
   border-bottom-left-radius: 4px;
+  border-right: none;
   border-top-left-radius: 4px;
   padding: 0 16px;
   width: 100%;
