@@ -13,6 +13,7 @@ export const CartLink = styled.a`
 export const Container = styled.div`
   height: 48px;
   padding: 16px;
+  ${({ $isMobile }) => ($isMobile ? "width: 50%;" : "")}
 `;
 
 export const IconContainer = styled.div`

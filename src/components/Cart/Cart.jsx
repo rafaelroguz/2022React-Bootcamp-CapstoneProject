@@ -1,10 +1,11 @@
-import React from "react";
-import { CartLink, Container, IconContainer, Text } from "./Cart.styled";
-import { CART_ROUTE } from "utils/routes";
 import { ReactComponent as ShopCartIcon } from "assets/svg/shopCart.svg";
+import PropTypes from "prop-types";
+import React from "react";
+import { CART_ROUTE } from "utils/routes";
+import { CartLink, Container, IconContainer, Text } from "./Cart.styled";
 
-const Cart = () => (
-  <Container>
+const Cart = ({ isMobile }) => (
+  <Container isMobile={isMobile}>
     <CartLink href={CART_ROUTE}>
       <IconContainer>
         <ShopCartIcon />
@@ -13,5 +14,9 @@ const Cart = () => (
     </CartLink>
   </Container>
 );
+
+Cart.propTypes = {
+  isMobile: PropTypes.bool,
+};
 
 export default Cart;
