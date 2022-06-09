@@ -4,7 +4,6 @@ import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg"
 import CarouselItem from "components/CarouselItem";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { useSwipeable } from "react-swipeable";
 import screenSizes from "styles/screenSizes";
 import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
 import {
@@ -58,23 +57,18 @@ const Carousel = ({ itemList }) => {
     setCurrentIndex(newIndex);
   };
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => handleClickPrevious,
-    onSwipedRight: () => handleClickNext,
-  });
-
   return (
     <Container
-      {...handlers}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <InnerContainer
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {itemList.map(({ alt, elementUrl, id, imageUrl }) => (
+        {itemList.map(({ alt, elementUrl, id, name, imageUrl }) => (
           <CarouselItem
             alt={alt}
+            categoryName={name}
             categoryUrl={elementUrl}
             imageUrl={imageUrl}
             key={id}
@@ -89,6 +83,7 @@ const Carousel = ({ itemList }) => {
           <IndicatorsContainer>
             {itemList.map((item, index) => (
               <IndicatorButton
+                $isActive={currentIndex === index}
                 $isMobile={isMobile}
                 key={`indicator-${item.id}`}
                 onClick={() => handleClickIndicator(index)}
