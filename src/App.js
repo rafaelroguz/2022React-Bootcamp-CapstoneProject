@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { ROUTES } from "utils/routes";
 
 function App() {
-  const [location, setLocation] = useState(ROUTES.HOME);
+  // TODO: using context api to handle location until Router is implemented
+  const [location, setLocation] = useState(ROUTES.PRODUCTS);
 
   return (
     <LocationContext.Provider value={{ location, setLocation }}>

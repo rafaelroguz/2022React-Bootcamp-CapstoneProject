@@ -3,7 +3,7 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import { Main } from "./Layout.styled";
 
-export const Layout = ({ children }) => (
+const Layout = ({ children }) => (
   <Fragment>
     <Header />
     <Main>{children}</Main>

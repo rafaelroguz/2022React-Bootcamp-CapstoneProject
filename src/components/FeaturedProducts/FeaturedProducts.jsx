@@ -15,7 +15,13 @@ const FeaturedProducts = ({ itemList }) => {
   const { setLocation } = useLocation();
   const { isMobile } = useGetScreenSize();
 
-  const handleClickButton = () => setLocation(ROUTES.PRODUCTS);
+  const handleClickButton = () => {
+    setLocation(ROUTES.PRODUCTS);
+    // For Safari
+    document.body.scrollTop = 0;
+    // For Chrome, Firefox, IE and Opera
+    document.documentElement.scrollTop = 0;
+  };
 
   return (
     <Container>
