@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import colors from "styles/colors";
 
 export const Main = styled.main`
   box-sizing: border-box;
+  color: ${colors.textPrimary};
   display: flex;
   flex-direction: column;
   margin: 0 auto;

@@ -5,7 +5,8 @@ import { ROUTES } from "utils/routes";
 
 function App() {
   // TODO: using context api to handle location until Router is implemented
-  const [location, setLocation] = useState(ROUTES.HOME);
+  // TODO: restore home as default route once deliverable 2 develop is finished
+  const [location, setLocation] = useState(ROUTES.PRODUCTS);
 
   return (
     <LocationContext.Provider value={{ location, setLocation }}>
