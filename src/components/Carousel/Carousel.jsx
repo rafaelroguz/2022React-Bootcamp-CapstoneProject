@@ -4,8 +4,7 @@ import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg"
 import CarouselItem from "components/CarouselItem";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import screenSizes from "styles/screenSizes";
-import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
+import useGetScreenSize from "utils/hooks/useGetScreenSize";
 import {
   ButtonsContainer,
   ButtonsContent,
@@ -19,8 +18,7 @@ import {
 const Carousel = ({ itemList }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const screenWidth = useGetScreenWidth();
-  const isMobile = screenWidth <= screenSizes.mobile;
+  const { isMobile } = useGetScreenSize();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,9 +51,7 @@ const Carousel = ({ itemList }) => {
       : setCurrentIndex((state) => state - 1);
   };
 
-  const handleClickIndicator = (newIndex) => {
-    setCurrentIndex(newIndex);
-  };
+  const handleClickIndicator = (newIndex) => setCurrentIndex(newIndex);
 
   return (
     <Container

@@ -2,8 +2,7 @@ import { ReactComponent as LeftChevronIcon } from "assets/svg/leftchevron.svg";
 import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import screenSizes from "styles/screenSizes";
-import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
+import useGetScreenSize from "utils/hooks/useGetScreenSize";
 import {
   ButtonsContainer,
   Container,
@@ -14,8 +13,7 @@ import {
 
 const Slider = ({ itemList }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const screenWidth = useGetScreenWidth();
-  const isMobile = screenWidth <= screenSizes.mobile;
+  const { isMobile } = useGetScreenSize();
   const {
     alt = "",
     elementUrl = "",

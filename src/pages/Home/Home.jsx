@@ -1,19 +1,17 @@
-import React from "react";
-
-import Layout from "components/Layout";
+import FeaturedBanner from "components/FeaturedBanner";
+import ProductCategories from "components/ProductCategories";
+import FeaturedProducts from "components/FeaturedProducts";
 import featuredBanners from "mocks/en-us/featured-banners.json";
 import featuredProducts from "mocks/en-us/featured-products.json";
 import productCategories from "mocks/en-us/product-categories.json";
-import FeaturedProducts from "components/FeaturedProducts";
-import FeaturedBanner from "components/FeaturedBanner";
-import ProductCategories from "components/ProductCategories";
+import React, { Fragment } from "react";
 
 export const Home = () => (
-  <Layout>
+  <Fragment>
     <FeaturedBanner itemList={featuredBanners.results} />
     <ProductCategories categoryList={productCategories.results} />
     <FeaturedProducts itemList={featuredProducts.results} />
-  </Layout>
+  </Fragment>
 );
 
 export default Home;
