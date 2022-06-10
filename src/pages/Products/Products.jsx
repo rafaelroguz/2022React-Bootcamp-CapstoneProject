@@ -1,5 +1,6 @@
 import LoadingContainer from "components/LoadingContainer";
 import React, { useEffect, useState } from "react";
+import { Container } from "./Products.styled";
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -8,7 +9,9 @@ const Products = () => {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <h1>This is the products page</h1>
+      <Container>
+        <h1>This is the products page</h1>
+      </Container>
     </LoadingContainer>
   );
 };

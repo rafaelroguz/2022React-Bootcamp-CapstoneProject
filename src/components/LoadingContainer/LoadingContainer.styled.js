@@ -4,8 +4,8 @@ import colors from "styles/colors";
 export const Container = styled.div`
   align-items: center;
   display: flex;
+  flex-grow: 1;
   justify-content: center;
-  min-height: calc(100vh - 80px);
 `;
 
 export const Spinner = styled.svg`
