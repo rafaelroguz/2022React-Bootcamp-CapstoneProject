@@ -15,7 +15,11 @@ const FeaturedProducts = ({ itemList }) => {
   const { setLocation } = useLocation();
   const { isMobile } = useGetScreenSize();
 
-  const handleClickButton = () => {
+  const handleClickAddToCartButton = (productId) => {
+    console.log(`Product ${productId} added to cart`);
+  };
+
+  const handleClickViewAllProductsButton = () => {
     setLocation(ROUTES.PRODUCTS);
     // For Safari
     document.body.scrollTop = 0;
@@ -28,10 +32,11 @@ const FeaturedProducts = ({ itemList }) => {
       <Title>Featured Products</Title>
       <ListContainer>
         {itemList.map((item) => {
-          const { data } = item;
+          const { id, data } = item;
           const { category, mainimage, name, price } = data;
           const itemData = {
             category: category.slug,
+            id,
             image: {
               alt: mainimage.alt,
               url: mainimage.url,
@@ -39,11 +44,19 @@ const FeaturedProducts = ({ itemList }) => {
             name: name,
             price: price,
           };
-          return <FeaturedItem itemData={itemData} key={item.id} />;
+          return (
+            <FeaturedItem
+              itemData={itemData}
+              key={item.id}
+              onClickButton={handleClickAddToCartButton}
+            />
+          );
         })}
       </ListContainer>
       <ButtonContainer $isMobile={isMobile}>
-        <Button onClick={handleClickButton}>View All Products</Button>
+        <Button onClick={handleClickViewAllProductsButton}>
+          View All Products
+        </Button>
       </ButtonContainer>
     </Container>
   );

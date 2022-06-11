@@ -1,23 +1,25 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  background-color: white;
+  border-radius: 4px;
   display: flex;
 `;
 
 export const Content = styled.div`
-  border: 1px solid red;
   flex-grow: 1;
+  padding: 16px;
 `;
 
 export const SideBar = styled.div`
-  border: 1px solid red;
+  border-right: 1px solid rgba(51, 51, 51, 0.5);
   box-sizing: border-box;
   flex-grow: 1;
-  max-width: 150px;
-  padding: 8px;
+  max-width: 220px;
+  padding: 16px;
 
-  & > div:not(:last-child) {
-    margin-bottom: 8px;
+  & > label:not(:last-child) {
+    margin-bottom: 16px;
   }
 `;
 
