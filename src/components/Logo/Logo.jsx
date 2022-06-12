@@ -1,5 +1,5 @@
 import { ReactComponent as CapstoneLogoIcon } from "assets/svg/capstonelogo.svg";
-import useLocation from "utils/hooks/useLocation";
+import useLocation from "hooks/useLocation";
 import PropTypes from "prop-types";
 import React from "react";
 import { ROUTES } from "utils/routes";

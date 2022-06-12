@@ -2,7 +2,7 @@ import { ReactComponent as LeftChevronIcon } from "assets/svg/leftchevron.svg";
 import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import useGetScreenSize from "utils/hooks/useGetScreenSize";
+import useGetScreenSize from "hooks/useGetScreenSize";
 import {
   ButtonsContainer,
   Container,

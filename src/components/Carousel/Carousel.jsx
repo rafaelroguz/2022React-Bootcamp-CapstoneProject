@@ -4,7 +4,7 @@ import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg"
 import CarouselItem from "components/CarouselItem";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import useGetScreenSize from "utils/hooks/useGetScreenSize";
+import useGetScreenSize from "hooks/useGetScreenSize";
 import {
   ButtonsContainer,
   ButtonsContent,

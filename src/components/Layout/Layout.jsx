@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Footer from "components/Footer";
 import Header from "components/Header";
-import useGetScreenSize from "utils/hooks/useGetScreenSize";
+import useGetScreenSize from "hooks/useGetScreenSize";
 import { Main } from "./Layout.styled";
 
 const Layout = ({ children }) => {

@@ -1,8 +1,8 @@
 import Button from "components/Button";
 import FeaturedItem from "components/FeaturedItem";
 import React from "react";
-import useLocation from "utils/hooks/useLocation";
-import useGetScreenSize from "utils/hooks/useGetScreenSize";
+import useLocation from "hooks/useLocation";
+import useGetScreenSize from "hooks/useGetScreenSize";
 import { ROUTES } from "utils/routes";
 import {
   ButtonContainer,

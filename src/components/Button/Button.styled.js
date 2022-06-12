@@ -10,4 +10,8 @@ export const StyledButton = styled.button`
   height: 48px;
   padding: 8px 16px;
   width: 100%;
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `;

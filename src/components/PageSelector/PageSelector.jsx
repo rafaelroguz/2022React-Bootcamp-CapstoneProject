@@ -1,5 +1,5 @@
 import Layout from "components/Layout";
-import useLocation from "utils/hooks/useLocation";
+import useLocation from "hooks/useLocation";
 import Home from "pages/Home";
 import Products from "pages/Products";
 import React from "react";

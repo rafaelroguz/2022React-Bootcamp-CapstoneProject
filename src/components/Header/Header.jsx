@@ -2,7 +2,7 @@ import Cart from "components/Cart";
 import Logo from "components/Logo";
 import SearchBar from "components/SearchBar";
 import React, { Fragment } from "react";
-import useGetScreenSize from "utils/hooks/useGetScreenSize";
+import useGetScreenSize from "hooks/useGetScreenSize";
 import { ButtonsRow, Container, Content, SearchBarRow } from "./Header.styled";
 
 const Header = () => {
