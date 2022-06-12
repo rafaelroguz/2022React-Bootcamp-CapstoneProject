@@ -14,7 +14,6 @@ export const Checkbox = styled.input`
   width: 24px;
 
   &::before {
-    border-color: white;
     border-style: solid;
     border-width: 0 4px 4px 0;
     content: "";
@@ -30,7 +29,6 @@ export const Checkbox = styled.input`
   }
 
   &:checked {
-    color: white;
     background: ${colors.secondary};
     border-color: ${colors.secondary};
     &::before {
@@ -59,7 +57,6 @@ export const Label = styled.label`
   &::before {
     clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
     content: attr(data-content);
-    color: ${colors.secondary};
     position: absolute;
     text-decoration: line-through;
     text-decoration-thickness: 3px;
