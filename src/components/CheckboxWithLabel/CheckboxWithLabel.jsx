@@ -3,7 +3,7 @@ import React from "react";
 import { Checkbox, Label, LabelContainer } from "./CheckboxWithLabel.styled";
 
 const CheckboxWithLabel = ({ id, isChecked, label, onClick }) => {
-  const handleClickCategory = () => onClick(id);
+  const handleClickCheckbox = () => onClick(id);
 
   return (
     <Label>
@@ -12,7 +12,7 @@ const CheckboxWithLabel = ({ id, isChecked, label, onClick }) => {
         id={id}
         name="categoryButton"
         type="checkbox"
-        onChange={handleClickCategory}
+        onChange={handleClickCheckbox}
       />
       <LabelContainer>{label}</LabelContainer>
     </Label>
