@@ -1,16 +1,23 @@
-import React from "react";
-import { LogoContainer } from "./Logo.styled";
-import { MAIN_ROUTE } from "utils/routes";
 import { ReactComponent as CapstoneLogoIcon } from "assets/svg/capstonelogo.svg";
+import useLocation from "hooks/useLocation";
 import PropTypes from "prop-types";
+import React from "react";
+import { ROUTES } from "utils/routes";
+import { LogoButton, LogoContainer } from "./Logo.styled";
 
-const Logo = ({ isMobile }) => (
-  <LogoContainer $isMobile={isMobile}>
-    <a href={MAIN_ROUTE} id="logo">
-      <CapstoneLogoIcon />
-    </a>
-  </LogoContainer>
-);
+const Logo = ({ isMobile }) => {
+  const { setLocation } = useLocation();
+
+  const handleClickLogo = () => setLocation(ROUTES.HOME);
+
+  return (
+    <LogoContainer $isMobile={isMobile}>
+      <LogoButton id="logo" onClick={handleClickLogo}>
+        <CapstoneLogoIcon />
+      </LogoButton>
+    </LogoContainer>
+  );
+};
 
 Logo.propTypes = {
   isMobile: PropTypes.bool,

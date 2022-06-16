@@ -4,9 +4,7 @@ import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg"
 import CarouselItem from "components/CarouselItem";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { useSwipeable } from "react-swipeable";
-import screenSizes from "styles/screenSizes";
-import useGetScreenWidth from "utils/hooks/useGetScreenWidth";
+import useGetScreenSize from "hooks/useGetScreenSize";
 import {
   ButtonsContainer,
   ButtonsContent,
@@ -20,8 +18,7 @@ import {
 const Carousel = ({ itemList }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const screenWidth = useGetScreenWidth();
-  const isMobile = screenWidth <= screenSizes.mobile;
+  const { isMobile } = useGetScreenSize();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,27 +51,20 @@ const Carousel = ({ itemList }) => {
       : setCurrentIndex((state) => state - 1);
   };
 
-  const handleClickIndicator = (newIndex) => {
-    setCurrentIndex(newIndex);
-  };
-
-  const handlers = useSwipeable({
-    onSwipedLeft: () => handleClickPrevious,
-    onSwipedRight: () => handleClickNext,
-  });
+  const handleClickIndicator = (newIndex) => setCurrentIndex(newIndex);
 
   return (
     <Container
-      {...handlers}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <InnerContainer
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {itemList.map(({ alt, elementUrl, id, imageUrl }) => (
+        {itemList.map(({ alt, elementUrl, id, name, imageUrl }) => (
           <CarouselItem
             alt={alt}
+            categoryName={name}
             categoryUrl={elementUrl}
             imageUrl={imageUrl}
             key={id}
@@ -89,6 +79,7 @@ const Carousel = ({ itemList }) => {
           <IndicatorsContainer>
             {itemList.map((item, index) => (
               <IndicatorButton
+                $isActive={currentIndex === index}
                 $isMobile={isMobile}
                 key={`indicator-${item.id}`}
                 onClick={() => handleClickIndicator(index)}

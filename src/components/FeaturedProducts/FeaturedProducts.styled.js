@@ -1,6 +1,14 @@
 import styled from "styled-components";
 import colors from "styles/colors";
 
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 64px auto 0 auto;
+  max-width: ${({ $isMobile }) => ($isMobile ? "100%" : "40%")};
+  width: 100%;
+`;
+
 export const Container = styled.div`
   width: 100%;
 `;

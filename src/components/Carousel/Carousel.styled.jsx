@@ -41,6 +41,7 @@ export const IndicatorButton = styled.button`
   background-color: transparent;
   border: none;
   margin: 0 ${({ $isMobile }) => ($isMobile ? "16" : "24")}px;
+  opacity: ${({ $isActive }) => ($isActive ? "1" : "0.5")};
   padding: 0;
   width: 16px;
 `;

@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const LogoButton = styled.button`
+  background-color: transparent;
+  border: none;
+  padding: 0;
+`;
+
 export const LogoContainer = styled.div`
   align-items: center;
   display: flex;

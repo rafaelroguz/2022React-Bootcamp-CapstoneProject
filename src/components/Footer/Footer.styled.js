@@ -6,7 +6,7 @@ export const Container = styled.footer`
   box-sizing: border-box;
   color: ${colors.textPrimary};
   font-weight: bold;
-  margin: 0;
+  margin: 64px 0 0 0;
   padding: 16px;
   text-align: center;
   width: 100%;
