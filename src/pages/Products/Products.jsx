@@ -1,11 +1,23 @@
+import Button from 'components/Button';
 import CategoryFilterCard from 'components/CheckboxWithLabel';
 import FeaturedItem from 'components/FeaturedItem';
 import LoadingContainer from 'components/LoadingContainer';
 import Pagination from 'components/Pagination';
+import { getCategories } from 'features/categories/categories.actions';
+import {
+  selectCategories,
+  selectIsLoadingCategories,
+} from 'features/categories/categories.selectors';
+import { getProducts } from 'features/products/products.actions';
+import {
+  selectIsLoadingProducts,
+  selectProducts,
+} from 'features/products/products.selectors';
 import useGetScreenSize from 'hooks/useGetScreenSize';
-import products from 'mocks/en-us/products.json';
-import productCategories from 'mocks/en-us/product-categories.json';
+import { useLatestAPI } from 'hooks/useLatestAPI';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import {
   Container,
   Content,
@@ -13,45 +25,71 @@ import {
   SideBar,
   Title,
 } from './Products.styled';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
 const pageSize = 12;
 
-// TODO: update products page
 const Products = () => {
-  // TODO: move this two list to Redux once it's implemented
-  const categoriesList = productCategories.results;
-  const productsList = products.results;
   const dispatch = useDispatch();
   const { isMobile } = useGetScreenSize();
+  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
   const { search } = useLocation();
+  const categoriesList = useSelector(selectCategories);
+  const isLoadingCategories = useSelector(selectIsLoadingCategories);
+  const isLoadingProducts = useSelector(selectIsLoadingProducts);
+  const productsList = useSelector(selectProducts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const searchParams = new URLSearchParams(search);
   const categoryParam = searchParams.get('category');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  // TODO: check if url category param is a valid one before pushing it into
-  // the selectedCategories array
-  const [selectedCategories, setSelectedCategories] = useState(
-    categoryParam ? [categoryParam] : []
-  );
 
-  console.log(selectedCategories);
+  useEffect(() => {
+    if (!apiRef || isApiMetadataLoading) {
+      return () => {};
+    }
+
+    const controller = new AbortController();
+
+    dispatch(getCategories(apiRef, controller));
+    dispatch(
+      getProducts({
+        apiRef,
+        controller,
+        pageSize: 30,
+      })
+    );
+
+    return () => {
+      controller.abort();
+    };
+  }, [apiRef, dispatch, isApiMetadataLoading]);
+
+  useEffect(() => {
+    if (
+      !!categoryParam &&
+      categoriesList.length &&
+      categoriesList.some((category) => category.id === categoryParam)
+    ) {
+      setSelectedCategories([categoryParam]);
+      return;
+    }
+  }, [categoriesList, categoryParam]);
 
   const filteredItems = useMemo(() => {
-    let elementsToMap = [];
+    if (!selectedCategories.length) {
+      return productsList;
+    }
+
+    return productsList.filter(({ data }) =>
+      selectedCategories.includes(data.category.id)
+    );
+  }, [selectedCategories, productsList]);
+
+  const mappedItems = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * pageSize;
     const lastPageIndex = firstPageIndex + pageSize;
 
-    if (!selectedCategories.length) {
-      elementsToMap = productsList;
-    } else {
-      elementsToMap = productsList.filter(({ data }) =>
-        selectedCategories.includes(data.category.id)
-      );
-    }
-
-    return elementsToMap
+    return filteredItems
       .map((product) => {
         const { data, id } = product;
         const {
@@ -74,11 +112,11 @@ const Products = () => {
         };
       })
       .slice(firstPageIndex, lastPageIndex);
-  }, [categoriesList, currentPage, productsList, selectedCategories]);
+  }, [categoriesList, currentPage, filteredItems]);
 
   useEffect(() => setCurrentPage(1), [selectedCategories]);
 
-  const mappedCategories = productCategories.results.map((item) => {
+  const mappedCategories = categoriesList.map((item) => {
     const {
       data: { name },
       id,
@@ -89,11 +127,6 @@ const Products = () => {
       label: name,
     };
   });
-
-  console.log('categories ', mappedCategories);
-
-  // Simulates loading products list
-  useEffect(() => setTimeout(() => setIsLoading(false), 2000), []);
 
   const handleChangePage = (newPage) => setCurrentPage(newPage);
 
@@ -110,8 +143,10 @@ const Products = () => {
       return [...prev, categoryId];
     });
 
+  const handleClickClearFilters = () => setSelectedCategories([]);
+
   return (
-    <LoadingContainer isLoading={isLoading}>
+    <LoadingContainer isLoading={isLoadingCategories && isLoadingProducts}>
       <Title>This is the products page</Title>
       <Container $isMobile={isMobile}>
         <SideBar $isMobile={isMobile}>
@@ -124,18 +159,19 @@ const Products = () => {
               onClick={handleClickCategory}
             />
           ))}
+          <Button onClick={handleClickClearFilters}>Clear Filters</Button>
         </SideBar>
         <Content>
-          {!!filteredItems.length && (
+          {!!mappedItems.length && (
             <Pagination
               currentPage={currentPage}
-              totalCount={productsList.length}
+              totalCount={filteredItems.length}
               pageSize={pageSize}
               onPageChange={handleChangePage}
             />
           )}
           <ContentGrid>
-            {filteredItems.map((item) => (
+            {mappedItems.map((item) => (
               <FeaturedItem
                 itemData={item}
                 key={item.id}
@@ -143,10 +179,10 @@ const Products = () => {
               />
             ))}
           </ContentGrid>
-          {!!filteredItems.length && (
+          {!!mappedItems.length && (
             <Pagination
               currentPage={currentPage}
-              totalCount={productsList.length}
+              totalCount={filteredItems.length}
               pageSize={pageSize}
               onPageChange={handleChangePage}
             />

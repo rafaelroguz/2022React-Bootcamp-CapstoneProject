@@ -12,7 +12,7 @@ import {
 
 const FeaturedItem = ({ itemData, onClickButton }) => {
   const { categoryName, id, image, name, price } = itemData;
-  const { alt, url } = image;
+  const { alt = '', url } = image;
   const productUrl = `${ROUTES.PRODUCT}/${id}`;
 
   return (
@@ -36,7 +36,7 @@ FeaturedItem.propTypes = {
     categoryName: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     image: PropTypes.shape({
-      alt: PropTypes.string.isRequired,
+      alt: PropTypes.string,
       url: PropTypes.string.isRequired,
     }).isRequired,
     name: PropTypes.string.isRequired,

@@ -21,7 +21,7 @@ export const Home = () => {
 
     dispatch(getFeaturedBanners(apiRef, controller));
     dispatch(getCategories(apiRef, controller));
-    dispatch(getProducts(apiRef, controller));
+    dispatch(getProducts({ apiRef, controller }));
 
     return () => {
       controller.abort();

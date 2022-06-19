@@ -1,8 +1,10 @@
 import { setData, setIsLoading, setPaginationData } from './products.slice';
 import { API_BASE_URL, basePaginationData } from 'utils/constants';
 
+// TODO: we should be able to pass page number and category filter to the fetch
+// instead of just recieving all the items and filtering manually
 export const getProducts =
-  (apiRef, controller, pageSize = 16) =>
+  ({ apiRef, controller, pageNumber = 1, pageSize = 16 }) =>
   async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
@@ -10,7 +12,7 @@ export const getProducts =
       const response = await fetch(
         `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
           '[[at(document.type, "product")]]'
-        )}&lang=en-us&pageSize=${pageSize}`,
+        )}&lang=en-us&pageSize=${pageSize}&page=${pageNumber}`,
         {
           signal: controller.signal,
         }
