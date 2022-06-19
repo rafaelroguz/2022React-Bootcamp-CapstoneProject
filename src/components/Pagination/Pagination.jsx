@@ -1,7 +1,7 @@
-import usePagination, { DOTS } from "hooks/usePagination";
-import PropTypes from "prop-types";
-import React from "react";
-import { Container, ControlButton, PageButton, Ul } from "./Pagination.styled";
+import usePagination, { DOTS } from 'hooks/usePagination';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Container, ControlButton, PageButton, Ul } from './Pagination.styled';
 
 const Pagination = ({
   currentPage,
@@ -42,7 +42,7 @@ const Pagination = ({
           }
 
           return (
-            <PageButton $isActive={currentPage === pageNumber}>
+            <PageButton $isActive={currentPage === pageNumber} key={pageNumber}>
               <button onClick={() => onPageChange(pageNumber)}>
                 {pageNumber}
               </button>

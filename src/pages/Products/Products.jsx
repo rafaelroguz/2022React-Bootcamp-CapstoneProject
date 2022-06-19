@@ -1,29 +1,42 @@
-import CategoryFilterCard from "components/CheckboxWithLabel";
-import FeaturedItem from "components/FeaturedItem";
-import LoadingContainer from "components/LoadingContainer";
-import Pagination from "components/Pagination";
-import useGetScreenSize from "hooks/useGetScreenSize";
-import products from "mocks/en-us/products.json";
-import productCategories from "mocks/en-us/product-categories.json";
-import React, { useEffect, useMemo, useState } from "react";
+import CategoryFilterCard from 'components/CheckboxWithLabel';
+import FeaturedItem from 'components/FeaturedItem';
+import LoadingContainer from 'components/LoadingContainer';
+import Pagination from 'components/Pagination';
+import useGetScreenSize from 'hooks/useGetScreenSize';
+import products from 'mocks/en-us/products.json';
+import productCategories from 'mocks/en-us/product-categories.json';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Container,
   Content,
   ContentGrid,
   SideBar,
   Title,
-} from "./Products.styled";
+} from './Products.styled';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 const pageSize = 12;
 
+// TODO: update products page
 const Products = () => {
   // TODO: move this two list to Redux once it's implemented
   const categoriesList = productCategories.results;
   const productsList = products.results;
+  const dispatch = useDispatch();
   const { isMobile } = useGetScreenSize();
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const categoryParam = searchParams.get('category');
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  // TODO: check if url category param is a valid one before pushing it into
+  // the selectedCategories array
+  const [selectedCategories, setSelectedCategories] = useState(
+    categoryParam ? [categoryParam] : []
+  );
+
+  console.log(selectedCategories);
 
   const filteredItems = useMemo(() => {
     let elementsToMap = [];
@@ -50,10 +63,10 @@ const Products = () => {
 
         const categoryName =
           categoriesList.find((category) => category.id === categoryId)?.data
-            .name ?? "No Category";
+            .name ?? 'No Category';
 
         return {
-          category: categoryName,
+          categoryName,
           id,
           image: { alt, url },
           name,
@@ -76,6 +89,8 @@ const Products = () => {
       label: name,
     };
   });
+
+  console.log('categories ', mappedCategories);
 
   // Simulates loading products list
   useEffect(() => setTimeout(() => setIsLoading(false), 2000), []);

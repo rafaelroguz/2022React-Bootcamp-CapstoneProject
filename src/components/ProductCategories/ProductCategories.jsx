@@ -1,44 +1,44 @@
-import Carousel from "components/Carousel";
-import categoryModel from "models/categoryModel";
-import PropTypes from "prop-types";
-import React, { useMemo } from "react";
-import { Container, Title } from "./ProductCategories.styled";
+import Carousel from 'components/Carousel';
+import LoadingContainer from 'components/LoadingContainer';
+import {
+  selectCategories,
+  selectIsLoadingCategories,
+} from 'features/categories/categories.selectors';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { ROUTES } from 'utils/routes';
+import { Container, Title } from './ProductCategories.styled';
 
-const ProductCategories = ({ categoryList }) => {
-  const itemList = useMemo(
+const ProductCategories = () => {
+  const isLoading = useSelector(selectIsLoadingCategories);
+  const itemList = useSelector(selectCategories);
+
+  const categoriesList = useMemo(
     () =>
-      categoryList.map(({ id, data, href }) => {
+      itemList.map(({ id, data }) => {
         const {
-          main_image: { alt, url },
+          main_image: { alt, url: imageUrl },
           name,
         } = data;
         return {
           alt,
-          elementUrl: href,
           id,
-          imageUrl: url,
-          name,
+          imageUrl,
+          itemUrl: `${ROUTES.PRODUCTS}?category=${id}`,
+          label: name,
         };
       }),
-    [categoryList]
+    [itemList]
   );
-
-  // TODO: console throws an error for missing field in prop, but the value IS there
-  // `categoryList[0].data.main_image.isRequired` is marked as required in `ProductCategories`,
-  // but its value is `undefined`.
-  // console.log(categoryList);
-  // console.log(categoryList[0]);
 
   return (
     <Container>
       <Title>Product Categories</Title>
-      <Carousel itemList={itemList} />
+      <LoadingContainer isLoading={isLoading}>
+        <Carousel itemList={categoriesList} />
+      </LoadingContainer>
     </Container>
   );
-};
-
-ProductCategories.propTypes = {
-  categoryList: PropTypes.arrayOf(PropTypes.shape(categoryModel)).isRequired,
 };
 
 export default ProductCategories;
