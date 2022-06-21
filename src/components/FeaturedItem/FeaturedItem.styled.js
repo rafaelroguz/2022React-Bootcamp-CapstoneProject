@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import colors from "styles/colors";
+import { Link as RouterLink } from 'react-router-dom';
+import styled from 'styled-components';
+import colors from 'styles/colors';
 
 export const AddToCardButton = styled.button`
   background-color: ${colors.secondary};
@@ -19,7 +20,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding: 32px 16px;
 `;
 
 export const CategoryText = styled.p`
@@ -31,6 +32,20 @@ export const Picture = styled.img`
   height: auto;
   max-width: 250px;
   width: 100%;
+`;
+
+export const Link = styled(RouterLink)`
+  color: ${colors.textPrimary};
+  text-decoration: none;
+
+  &:visited {
+    color: ${colors.textPrimary};
+  }
+
+  &:hover {
+    color: ${colors.secondary};
+    text-decoration: underline;
+  }
 `;
 
 export const Title = styled.p`

@@ -1,6 +1,6 @@
-import Button from "components/Button";
-import styled from "styled-components";
-import colors from "styles/colors";
+import Button from 'components/Button';
+import styled from 'styled-components';
+import colors from 'styles/colors';
 
 export const ControlButton = styled(Button)`
   height: 32px;
@@ -21,7 +21,7 @@ export const PageButton = styled.li`
 
   & button {
     background-color: ${({ $isActive }) =>
-      $isActive ? colors.secondary : "transparent"};
+      $isActive ? colors.secondary : 'transparent'};
     border: none;
     border-radius: 50%;
     color: ${colors.textPrimary};
@@ -43,6 +43,6 @@ export const Ul = styled.ul`
   padding: 0;
 
   & li:not(:last-child) {
-    margin-right: 16px;
+    margin-right: ${({ $isSmallDevice }) => ($isSmallDevice ? '4px' : '16px')};
   }
 `;

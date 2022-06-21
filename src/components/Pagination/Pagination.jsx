@@ -1,7 +1,9 @@
-import usePagination, { DOTS } from "hooks/usePagination";
-import PropTypes from "prop-types";
-import React from "react";
-import { Container, ControlButton, PageButton, Ul } from "./Pagination.styled";
+import useGetScreenSize from 'hooks/useGetScreenSize';
+import usePagination, { DOTS } from 'hooks/usePagination';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { v4 as uuid } from 'uuid';
+import { Container, ControlButton, PageButton, Ul } from './Pagination.styled';
 
 const Pagination = ({
   currentPage,
@@ -10,6 +12,7 @@ const Pagination = ({
   totalCount,
   onPageChange,
 }) => {
+  const { isMobile, isTablet } = useGetScreenSize();
   const paginationRange = usePagination({
     currentPage,
     totalCount,
@@ -27,7 +30,7 @@ const Pagination = ({
 
   return (
     <Container>
-      <Ul>
+      <Ul $isSmallDevice={isMobile || isTablet}>
         <li>
           <ControlButton
             disabled={currentPage === 1}
@@ -38,11 +41,11 @@ const Pagination = ({
         </li>
         {paginationRange.map((pageNumber) => {
           if (pageNumber === DOTS) {
-            return <li>&#8230;</li>;
+            return <li key={uuid()}>&#8230;</li>;
           }
 
           return (
-            <PageButton $isActive={currentPage === pageNumber}>
+            <PageButton $isActive={currentPage === pageNumber} key={pageNumber}>
               <button onClick={() => onPageChange(pageNumber)}>
                 {pageNumber}
               </button>
@@ -51,7 +54,9 @@ const Pagination = ({
         })}
         <li>
           <ControlButton
-            disabled={currentPage === paginationRange.length}
+            disabled={
+              currentPage === paginationRange[paginationRange.length - 1]
+            }
             onClick={handleClickNext}
           >
             Next

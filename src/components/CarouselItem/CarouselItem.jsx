@@ -1,21 +1,22 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { CategoryName, Container, Image } from "./CarouselItem.styled";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { CategoryName, Container, Image } from './CarouselItem.styled';
 
-const CarouselItem = ({ alt, categoryName, categoryUrl, imageUrl }) => (
+const CarouselItem = ({ alt, imageUrl, itemUrl, label }) => (
   <Container>
-    <a href={categoryUrl}>
+    <Link to={itemUrl}>
       <Image alt={alt} src={imageUrl} />
-    </a>
-    <CategoryName>{categoryName}</CategoryName>
+    </Link>
+    <CategoryName>{label}</CategoryName>
   </Container>
 );
 
 CarouselItem.propTypes = {
   alt: PropTypes.string.isRequired,
-  categoryName: PropTypes.string.isRequired,
-  categoryUrl: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
+  itemUrl: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default CarouselItem;
