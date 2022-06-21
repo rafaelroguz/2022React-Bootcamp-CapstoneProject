@@ -44,9 +44,6 @@ const Product = () => {
     stock = 0,
   } = currentProduct?.data || {};
 
-  console.log('category');
-  console.log(category);
-
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
       return () => {};
