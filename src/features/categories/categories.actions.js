@@ -1,4 +1,9 @@
-import { setData, setIsLoading, setPaginationData } from './categories.slice';
+import {
+  setCategory,
+  setData,
+  setIsLoading,
+  setPaginationData,
+} from './categories.slice';
 import { API_BASE_URL, basePaginationData } from 'utils/constants';
 
 export const getCategories = (apiRef, controller) => async (dispatch) => {
@@ -41,3 +46,29 @@ export const getCategories = (apiRef, controller) => async (dispatch) => {
     dispatch(setIsLoading(false));
   }
 };
+
+export const getCategory =
+  ({ apiRef, controller, categoryId }) =>
+  async (dispatch) => {
+    try {
+      dispatch(setIsLoading(true));
+
+      const response = await fetch(
+        `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
+          `[[at(document.id, "${categoryId}")]]`
+        )}&lang=en-us`,
+        {
+          signal: controller.signal,
+        }
+      );
+      const data = await response.json();
+      const { results } = data;
+
+      dispatch(setCategory(results[0]));
+    } catch (err) {
+      dispatch(setCategory(undefined));
+      console.error(err);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };

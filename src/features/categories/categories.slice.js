@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { basePaginationData } from 'utils/constants';
 
 const initialState = {
+  category: undefined,
   data: [],
   isLoading: true,
   paginationData: {
@@ -13,6 +14,9 @@ export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
+    setCategory: (state, action) => {
+      state.category = action.payload;
+    },
     setData: (state, action) => {
       state.data = action.payload;
     },
@@ -25,7 +29,7 @@ export const categoriesSlice = createSlice({
   },
 });
 
-export const { setData, setIsLoading, setPaginationData } =
+export const { setCategory, setData, setIsLoading, setPaginationData } =
   categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

@@ -7,6 +7,7 @@ const initialState = {
   paginationData: {
     ...basePaginationData,
   },
+  product: undefined,
 };
 
 export const productsSlice = createSlice({
@@ -22,10 +23,13 @@ export const productsSlice = createSlice({
     setPaginationData: (state, action) => {
       state.paginationData = action.payload;
     },
+    setProduct: (state, action) => {
+      state.product = action.payload;
+    },
   },
 });
 
-export const { setData, setIsLoading, setPaginationData } =
+export const { setData, setIsLoading, setPaginationData, setProduct } =
   productsSlice.actions;
 
 export default productsSlice.reducer;

@@ -147,7 +147,7 @@ const Products = () => {
 
   return (
     <LoadingContainer isLoading={isLoadingCategories && isLoadingProducts}>
-      <Title>This is the products page</Title>
+      <Title>All Products</Title>
       <Container $isMobile={isMobile}>
         <SideBar $isMobile={isMobile}>
           {mappedCategories.map(({ id, label }) => (
