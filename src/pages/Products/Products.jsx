@@ -65,13 +65,14 @@ const Products = () => {
   }, [apiRef, dispatch, isApiMetadataLoading]);
 
   useEffect(() => {
-    if (
-      !!categoryParam &&
-      categoriesList.length &&
-      categoriesList.some((category) => category.id === categoryParam)
-    ) {
-      setSelectedCategories([categoryParam]);
-      return;
+    if (!categoryParam || !categoriesList.length) return;
+
+    const foundCategory = categoriesList.find(
+      ({ slugs = [] }) => slugs[0] === categoryParam
+    );
+
+    if (foundCategory) {
+      setSelectedCategories([foundCategory.id]);
     }
   }, [categoriesList, categoryParam]);
 

@@ -15,7 +15,7 @@ const ProductCategories = () => {
 
   const categoriesList = useMemo(
     () =>
-      itemList.map(({ id, data }) => {
+      itemList.map(({ id, data, slugs }) => {
         const {
           main_image: { alt, url: imageUrl },
           name,
@@ -24,7 +24,7 @@ const ProductCategories = () => {
           alt,
           id,
           imageUrl,
-          itemUrl: `${ROUTES.PRODUCTS}?category=${id}`,
+          itemUrl: `${ROUTES.PRODUCTS}?category=${slugs[0] || id}`,
           label: name,
         };
       }),
