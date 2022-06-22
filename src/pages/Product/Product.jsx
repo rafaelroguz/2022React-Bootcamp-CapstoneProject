@@ -1,5 +1,6 @@
 import Button from 'components/Button';
 import LoadingContainer from 'components/LoadingContainer';
+import Tag from 'components/Tag';
 import { getCategory } from 'features/categories/categories.actions';
 import {
   selectCategory,
@@ -10,23 +11,33 @@ import {
   selectIsLoadingProducts,
   selectProduct,
 } from 'features/products/products.selectors';
+import { setProduct } from 'features/products/products.slice';
+import useGetScreenSize from 'hooks/useGetScreenSize';
 import { useLatestAPI } from 'hooks/useLatestAPI';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { ROUTES } from 'utils/routes';
+import { v4 as uuid } from 'uuid';
 import {
   Container,
+  Description,
+  FlexContainer,
   ImageContainer,
   Input,
   Label,
+  Link,
   MainContainer,
-  QuantityContainer,
+  PriceLabel,
+  SpecsList,
+  TagsContainer,
   Title,
 } from './Product.styled';
 
 const Product = () => {
   const dispatch = useDispatch();
   const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
+  const { isMobile, isTablet } = useGetScreenSize();
   const { productId } = useParams();
   const currentCategory = useSelector(selectCategory);
   const currentProduct = useSelector(selectProduct);
@@ -35,12 +46,16 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
 
   const isLoading = isLoadingCategories || isLoadingProduct;
+  const isSmallDevice = isMobile || isTablet;
 
   const {
     category,
+    description = [],
     mainimage = {},
     name = '',
     price = '0.00',
+    sku = 0,
+    specs = [],
     stock = 0,
   } = currentProduct?.data || {};
 
@@ -55,6 +70,7 @@ const Product = () => {
 
     return () => {
       controller.abort();
+      dispatch(setProduct(undefined));
     };
   }, [apiRef, dispatch, isApiMetadataLoading, productId]);
 
@@ -91,30 +107,64 @@ const Product = () => {
     setQuantity(inputQuantity);
   };
 
+  const handleClickAddToCardButton = () => {
+    console.log(`Added ${productId} to cart`);
+  };
+
   return (
     <LoadingContainer isLoading={isLoading}>
-      {!!currentProduct && !isLoading && (
-        <Container>
-          <ImageContainer>
-            <img alt={mainimage.alt} src={mainimage.url} />
-          </ImageContainer>
-          <MainContainer>
-            <Title>{name}</Title>
-            <Label>{currentCategory?.data.name || ''}</Label>
-            <Label>{`$ ${price}`}</Label>
-            <QuantityContainer>
-              <Label>Qty:</Label>
-              <Input
-                type='number'
-                max={stock}
-                min={1}
-                value={quantity}
-                onChange={handleChangeQuantity}
-              />
-              <Button>Add to Cart</Button>
-            </QuantityContainer>
-          </MainContainer>
-        </Container>
+      {!!currentCategory && !!currentProduct && !isLoading && (
+        <Fragment>
+          <Container $isSmallDevice={isSmallDevice}>
+            <ImageContainer $isSmallDevice={isSmallDevice}>
+              <img alt={mainimage.alt} src={mainimage.url} />
+            </ImageContainer>
+            <MainContainer $isSmallDevice={isSmallDevice}>
+              <Title>{name}</Title>
+              <Link
+                to={`${ROUTES.PRODUCTS}?category=${currentCategory.slugs[0]}`}
+              >
+                {`Category: ${currentCategory?.data.name || ''}`}
+              </Link>
+              <TagsContainer>
+                {currentProduct.tags.map((tag) => (
+                  <Tag key={tag} label={tag} />
+                ))}
+              </TagsContainer>
+              <FlexContainer>
+                <Label>{`In stock: ${stock || 'Out of Stock'}`}</Label>
+                <Label>{`SKU: ${sku}`}</Label>
+              </FlexContainer>
+              <FlexContainer>
+                <PriceLabel>{`$ ${price}`}</PriceLabel>
+                <Description>{description[0]?.text}</Description>
+              </FlexContainer>
+              <FlexContainer>
+                <Label>Qty:</Label>
+                <Input
+                  disabled={!stock}
+                  max={stock}
+                  min={1}
+                  type='number'
+                  value={quantity}
+                  onChange={handleChangeQuantity}
+                />
+                <Label>{`Total: $${price * quantity}`}</Label>
+              </FlexContainer>
+              <Button disabled={!stock} onClick={handleClickAddToCardButton}>
+                Add to Cart
+              </Button>
+            </MainContainer>
+          </Container>
+          <Label>Product Specs:</Label>
+          <SpecsList>
+            {specs.map(({ spec_name, spec_value }) => (
+              <li key={uuid()}>
+                {spec_name}: {spec_value}
+              </li>
+            ))}
+          </SpecsList>
+        </Fragment>
       )}
     </LoadingContainer>
   );

@@ -1,8 +1,8 @@
+import Button from 'components/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { ROUTES } from 'utils/routes';
 import {
-  AddToCardButton,
   Card,
   CategoryText,
   Link,
@@ -24,9 +24,9 @@ const FeaturedItem = ({ itemData, onClickButton }) => {
         <Title>{name}</Title>
       </Link>
       <CategoryText>{categoryName}</CategoryText>
-      <AddToCardButton onClick={() => onClickButton(id)}>
+      <Button onClick={() => onClickButton(id)}>
         Add to Cart&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;${price}
-      </AddToCardButton>
+      </Button>
     </Card>
   );
 };

@@ -4,7 +4,7 @@ import colors from 'styles/colors';
 
 export const ControlButton = styled(Button)`
   height: 32px;
-  padding: 8px;
+  padding: 0 8px;
 `;
 
 export const Container = styled.div`

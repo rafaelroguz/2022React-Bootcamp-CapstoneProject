@@ -1,15 +1,34 @@
+import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
 export const Container = styled.div`
   display: flex;
-  margin-top: 8px;
+  flex-direction: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'column' : 'row'};
+  gap: 16px;
+  margin: 8px 0 48px 0;
+`;
+
+export const Description = styled.p`
+  font-size: 1rem;
+  margin: 0;
+  width: 100%;
+`;
+
+export const FlexContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 24px;
 `;
 
 export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  width: 50%;
+  margin: 0 auto;
+  width: ${({ $isSmallDevice }) => ($isSmallDevice ? '100%' : '50%')};
 
   & > img {
     height: auto;
@@ -43,23 +62,51 @@ export const Input = styled.input`
 `;
 
 export const Label = styled.h3`
-  margin: 0 0 24px 0;
+  margin: 0;
+  white-space: nowrap;
+`;
+
+export const Link = styled(RouterLink)`
+  color: ${colors.textPrimary};
+  font-weight: bold;
+  margin-bottom: 24px;
+  text-decoration: none;
+  margin-bottom: 24px;
+  white-space: nowrap;
+  width: fit-content;
+
+  &:visited {
+    color: ${colors.textPrimary};
+  }
+
+  &:hover {
+    color: ${colors.secondary};
+    text-decoration: underline;
+  }
 `;
 
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  margin: 0 auto;
+  width: ${({ $isSmallDevice }) => ($isSmallDevice ? '100%' : '50%')};
 `;
 
-export const QuantityContainer = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 16px;
+export const PriceLabel = styled(Label)`
+  font-size: 2.5rem;
+`;
 
-  & > h3 {
-    margin: 0;
+export const SpecsList = styled.ul`
+  & li:not(:last-child) {
+    margin-bottom: 16px;
   }
+`;
+
+export const TagsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
 `;
 
 export const Title = styled.h1`

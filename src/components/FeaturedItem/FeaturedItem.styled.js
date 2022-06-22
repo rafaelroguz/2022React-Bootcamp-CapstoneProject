@@ -2,16 +2,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
-export const AddToCardButton = styled.button`
-  background-color: ${colors.secondary};
-  border: none;
-  border-radius: 8px;
-  color: black;
-  font-weight: bold;
-  height: 48px;
-  padding: 8px 16px;
-`;
-
 export const Card = styled.div`
   align-items: center;
   background: white;
@@ -20,7 +10,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 32px 16px;
+  padding: 32px;
 `;
 
 export const CategoryText = styled.p`

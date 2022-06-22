@@ -15,7 +15,7 @@ export const ContentGrid = styled.div`
   column-gap: 16px;
   display: grid;
   flex-grow: 1;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   padding: 16px;
   row-gap: 16px;
 `;
@@ -29,6 +29,7 @@ export const SideBar = styled.div`
   flex-grow: 1;
   max-width: ${({ $isMobile }) => ($isMobile ? '100%' : '220px')};
   padding: 16px;
+  width: 100%;
 
   & > label:not(:last-child) {
     margin-bottom: 16px;
