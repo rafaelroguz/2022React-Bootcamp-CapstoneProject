@@ -60,9 +60,6 @@ const Product = () => {
     stock = 0,
   } = currentProduct?.data || {};
 
-  console.log('images');
-  console.log(images);
-
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
       return () => {};
@@ -102,16 +99,14 @@ const Product = () => {
     [images, name]
   );
 
-  console.log('product');
-  console.log(useSelector(selectProduct));
-
+  // TODO: fix issue when trying to type quantity that starts with any number different from 1
   const handleChangeQuantity = ({ target: { value } }) => {
     const inputQuantity = parseInt(value, 10);
 
-    if (!value.length || inputQuantity < 1) {
-      setQuantity(1);
-      return;
-    }
+    // if (isNaN(inputQuantity) || inputQuantity < 1) {
+    //   // setQuantity(1);
+    //   return;
+    // }
 
     if (inputQuantity > stock) {
       setQuantity(stock);
@@ -163,9 +158,14 @@ const Product = () => {
                   value={quantity}
                   onChange={handleChangeQuantity}
                 />
-                <Label>{`Total: $${price * quantity}`}</Label>
+                <Label>{`Total: $${
+                  isNaN(quantity) ? '0' : price * quantity
+                }`}</Label>
               </FlexContainer>
-              <Button disabled={!stock} onClick={handleClickAddToCardButton}>
+              <Button
+                disabled={quantity < 1 || isNaN(quantity) || !stock}
+                onClick={handleClickAddToCardButton}
+              >
                 Add to Cart
               </Button>
             </MainContainer>
