@@ -1,5 +1,6 @@
 import Button from 'components/Button';
 import LoadingContainer from 'components/LoadingContainer';
+import Slider from 'components/Slider';
 import Tag from 'components/Tag';
 import { getCategory } from 'features/categories/categories.actions';
 import {
@@ -14,7 +15,7 @@ import {
 import { setProduct } from 'features/products/products.slice';
 import useGetScreenSize from 'hooks/useGetScreenSize';
 import { useLatestAPI } from 'hooks/useLatestAPI';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ROUTES } from 'utils/routes';
@@ -51,13 +52,16 @@ const Product = () => {
   const {
     category,
     description = [],
-    mainimage = {},
+    images = [],
     name = '',
     price = '0.00',
     sku = 0,
     specs = [],
     stock = 0,
   } = currentProduct?.data || {};
+
+  console.log('images');
+  console.log(images);
 
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
@@ -88,6 +92,16 @@ const Product = () => {
     };
   }, [apiRef, category, dispatch, isApiMetadataLoading]);
 
+  const pictures = useMemo(
+    () =>
+      images.map(({ image: { alt, url } }) => ({
+        alt: alt || name,
+        id: uuid(),
+        imageUrl: url,
+      })),
+    [images, name]
+  );
+
   console.log('product');
   console.log(useSelector(selectProduct));
 
@@ -117,7 +131,7 @@ const Product = () => {
         <Fragment>
           <Container $isSmallDevice={isSmallDevice}>
             <ImageContainer $isSmallDevice={isSmallDevice}>
-              <img alt={mainimage.alt} src={mainimage.url} />
+              <Slider itemList={pictures} />
             </ImageContainer>
             <MainContainer $isSmallDevice={isSmallDevice}>
               <Title>{name}</Title>
