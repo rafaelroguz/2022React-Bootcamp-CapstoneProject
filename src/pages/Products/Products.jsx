@@ -13,6 +13,7 @@ import {
   selectIsLoadingProducts,
   selectProducts,
 } from 'features/products/products.selectors';
+import { setProducts } from 'features/products/products.slice';
 import useGetScreenSize from 'hooks/useGetScreenSize';
 import { useLatestAPI } from 'hooks/useLatestAPI';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -61,6 +62,7 @@ const Products = () => {
 
     return () => {
       controller.abort();
+      dispatch(setProducts([]));
     };
   }, [apiRef, dispatch, isApiMetadataLoading]);
 

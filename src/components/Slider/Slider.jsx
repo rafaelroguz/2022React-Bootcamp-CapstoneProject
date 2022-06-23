@@ -45,23 +45,27 @@ const Slider = ({ itemList }) => {
             <DisplayedImage alt={alt} src={imageUrl} />
           </ImageContainer>
         )}
-        <ButtonsContainer>
-          <ControlButton onClick={handleClickPrevious}>
-            <LeftChevronIcon />
-          </ControlButton>
-          <ControlButton onClick={handleClickNext}>
-            <RightChevronIcon />
-          </ControlButton>
-        </ButtonsContainer>
+        {itemList.length > 1 && (
+          <ButtonsContainer>
+            <ControlButton onClick={handleClickPrevious}>
+              <LeftChevronIcon />
+            </ControlButton>
+            <ControlButton onClick={handleClickNext}>
+              <RightChevronIcon />
+            </ControlButton>
+          </ButtonsContainer>
+        )}
       </Container>
     );
   }
 
   return (
     <Container>
-      <ControlButton onClick={handleClickPrevious}>
-        <LeftChevronIcon />
-      </ControlButton>
+      {itemList.length > 1 && (
+        <ControlButton onClick={handleClickPrevious}>
+          <LeftChevronIcon />
+        </ControlButton>
+      )}
       {!!elementUrl ? (
         <ImageLink href={elementUrl}>
           <DisplayedImage alt={alt} src={imageUrl} />
@@ -71,9 +75,11 @@ const Slider = ({ itemList }) => {
           <DisplayedImage alt={alt} src={imageUrl} />
         </ImageContainer>
       )}
-      <ControlButton onClick={handleClickNext}>
-        <RightChevronIcon />
-      </ControlButton>
+      {itemList.length > 1 && (
+        <ControlButton onClick={handleClickNext}>
+          <RightChevronIcon />
+        </ControlButton>
+      )}
     </Container>
   );
 };

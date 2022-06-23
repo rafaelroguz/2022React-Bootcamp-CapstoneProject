@@ -7,7 +7,7 @@ import {
   selectCategory,
   selectIsLoadingCategories,
 } from 'features/categories/categories.selectors';
-import { getProduct } from 'features/products/products.actions';
+import { getProductById } from 'features/products/products.actions';
 import {
   selectIsLoadingProducts,
   selectProduct,
@@ -67,7 +67,7 @@ const Product = () => {
 
     const controller = new AbortController();
 
-    dispatch(getProduct({ apiRef, controller, productId }));
+    dispatch(getProductById({ apiRef, controller, productId }));
 
     return () => {
       controller.abort();

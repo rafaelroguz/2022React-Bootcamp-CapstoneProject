@@ -1,17 +1,19 @@
-import Cart from "components/Cart";
-import Logo from "components/Logo";
-import SearchBar from "components/SearchBar";
-import React, { Fragment } from "react";
-import useGetScreenSize from "hooks/useGetScreenSize";
-import { ButtonsRow, Container, Content, SearchBarRow } from "./Header.styled";
+import Cart from 'components/Cart';
+import Logo from 'components/Logo';
+import SearchBar from 'components/SearchBar';
+import React, { Fragment } from 'react';
+import useGetScreenSize from 'hooks/useGetScreenSize';
+import { ButtonsRow, Container, Content, SearchBarRow } from './Header.styled';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from 'utils/routes';
 
 const Header = () => {
   const { isMobile, isTablet } = useGetScreenSize();
+  const navigate = useNavigate();
   const isSmallDevice = isMobile || isTablet;
 
   const handleSearch = (inputValue) => {
-    // TODO: add search functionality
-    console.log(inputValue);
+    navigate(`${ROUTES.SEARCH}/?q=${inputValue}`);
   };
 
   return (
@@ -28,14 +30,14 @@ const Header = () => {
         {isSmallDevice ? (
           <SearchBarRow>
             <SearchBar
-              placeholder="Search any product"
+              placeholder='Search any product'
               onSearch={handleSearch}
             />
           </SearchBarRow>
         ) : (
           <Fragment>
             <SearchBar
-              placeholder="Search any product"
+              placeholder='Search any product'
               onSearch={handleSearch}
             />
             <Cart />

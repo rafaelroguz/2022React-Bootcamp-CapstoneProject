@@ -7,6 +7,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useLatestAPI } from 'hooks/useLatestAPI';
 import { useDispatch } from 'react-redux';
 import { getProducts } from 'features/products/products.actions';
+import { setProducts } from 'features/products/products.slice';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export const Home = () => {
 
     return () => {
       controller.abort();
+      dispatch(setProducts([]));
     };
   }, [apiRef, dispatch, isApiMetadataLoading]);
 

@@ -1,12 +1,12 @@
 import {
-  setData,
   setProduct,
+  setProducts,
   setIsLoading,
   setPaginationData,
 } from './products.slice';
 import { API_BASE_URL, basePaginationData } from 'utils/constants';
 
-export const getProduct =
+export const getProductById =
   ({ apiRef, controller, productId }) =>
   async (dispatch) => {
     try {
@@ -60,7 +60,7 @@ export const getProducts =
         total_pages: totalPages,
       } = data;
 
-      dispatch(setData(results));
+      dispatch(setProducts(results));
       dispatch(
         setPaginationData({
           page,
@@ -71,7 +71,7 @@ export const getProducts =
         })
       );
     } catch (err) {
-      dispatch(setData([]));
+      dispatch(setProducts([]));
       dispatch(setPaginationData({ ...basePaginationData }));
       console.error(err);
     } finally {

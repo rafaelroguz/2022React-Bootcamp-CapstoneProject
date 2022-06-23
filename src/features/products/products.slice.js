@@ -2,21 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { basePaginationData } from 'utils/constants';
 
 const initialState = {
-  data: [],
   isLoading: true,
   paginationData: {
     ...basePaginationData,
   },
   product: undefined,
+  products: [],
 };
 
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setData: (state, action) => {
-      state.data = action.payload;
-    },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -26,10 +23,13 @@ export const productsSlice = createSlice({
     setProduct: (state, action) => {
       state.product = action.payload;
     },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
   },
 });
 
-export const { setData, setIsLoading, setPaginationData, setProduct } =
+export const { setIsLoading, setPaginationData, setProduct, setProducts } =
   productsSlice.actions;
 
 export default productsSlice.reducer;

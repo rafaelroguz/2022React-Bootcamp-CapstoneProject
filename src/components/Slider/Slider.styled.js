@@ -11,7 +11,7 @@ export const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: ${({ $isMobile }) => ($isMobile ? 'column' : 'row')};
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
 `;
 
