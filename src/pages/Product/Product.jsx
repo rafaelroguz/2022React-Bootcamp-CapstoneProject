@@ -99,14 +99,8 @@ const Product = () => {
     [images, name]
   );
 
-  // TODO: fix issue when trying to type quantity that starts with any number different from 1
   const handleChangeQuantity = ({ target: { value } }) => {
     const inputQuantity = parseInt(value, 10);
-
-    // if (isNaN(inputQuantity) || inputQuantity < 1) {
-    //   // setQuantity(1);
-    //   return;
-    // }
 
     if (inputQuantity > stock) {
       setQuantity(stock);
