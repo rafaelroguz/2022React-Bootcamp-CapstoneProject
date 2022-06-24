@@ -182,7 +182,7 @@ The bonus is a plus that helps us know you better and increments your final scor
 
 - Emulate loading state for the Products Grid. You should show a loader component immediately after you navigate to the Product List Page and 2 seconds after that, you should remove that loader and show all the products from the mock file (20 points)
 
-## Deliverable 3 - In Progress
+## Deliverable 3 - Finished
 
 - **Goal**: In this assignment, you will continue working on your Ecommerce Store. It should contain the following:
   - Home Page (with API integration)
