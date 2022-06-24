@@ -16,7 +16,6 @@ const FeaturedItem = ({ itemData, onClickButton }) => {
   const { alt = '', url } = image;
   const productUrl = `${ROUTES.PRODUCT}/${id}`;
 
-  // TODO: check if is ok to display description here
   return (
     <Card>
       <Link to={productUrl}>
@@ -31,7 +30,6 @@ const FeaturedItem = ({ itemData, onClickButton }) => {
           ? `${description.slice(0, 150)}...`
           : description}
       </Description>
-      {/* <Description>{description}</Description> */}
       <Button onClick={() => onClickButton(id)}>
         Add to Cart&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;${price}
       </Button>
