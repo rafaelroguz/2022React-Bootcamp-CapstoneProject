@@ -4,13 +4,17 @@ import SearchBar from 'components/SearchBar';
 import React, { Fragment } from 'react';
 import useGetScreenSize from 'hooks/useGetScreenSize';
 import { ButtonsRow, Container, Content, SearchBarRow } from './Header.styled';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'utils/routes';
 
 const Header = () => {
   const { isMobile, isTablet } = useGetScreenSize();
+  const { search } = useLocation();
   const navigate = useNavigate();
+  const searchParams = new URLSearchParams(search);
+  const searchParam = searchParams.get('q');
   const isSmallDevice = isMobile || isTablet;
+  const placeholder = searchParam || 'Search any product';
 
   const handleSearch = (inputValue) => {
     navigate(`${ROUTES.SEARCH}/?q=${inputValue}`);
@@ -29,17 +33,11 @@ const Header = () => {
         )}
         {isSmallDevice ? (
           <SearchBarRow>
-            <SearchBar
-              placeholder='Search any product'
-              onSearch={handleSearch}
-            />
+            <SearchBar placeholder={placeholder} onSearch={handleSearch} />
           </SearchBarRow>
         ) : (
           <Fragment>
-            <SearchBar
-              placeholder='Search any product'
-              onSearch={handleSearch}
-            />
+            <SearchBar placeholder={placeholder} onSearch={handleSearch} />
             <Cart />
           </Fragment>
         )}
