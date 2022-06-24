@@ -18,6 +18,12 @@ export const CategoryText = styled.p`
   margin: 8px 0 40px 0;
 `;
 
+export const Description = styled.p`
+  font-size: 1rem;
+  width: 100%;
+  margin: 0 0 40px 0;
+`;
+
 export const Picture = styled.img`
   height: auto;
   max-width: 250px;

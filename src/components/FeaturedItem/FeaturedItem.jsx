@@ -5,16 +5,18 @@ import { ROUTES } from 'utils/routes';
 import {
   Card,
   CategoryText,
+  Description,
   Link,
   Picture,
   Title,
 } from './FeaturedItem.styled';
 
 const FeaturedItem = ({ itemData, onClickButton }) => {
-  const { categoryName, id, image, name, price } = itemData;
+  const { categoryName, description = '', id, image, name, price } = itemData;
   const { alt = '', url } = image;
   const productUrl = `${ROUTES.PRODUCT}/${id}`;
 
+  // TODO: check if is ok to display description here
   return (
     <Card>
       <Link to={productUrl}>
@@ -24,6 +26,12 @@ const FeaturedItem = ({ itemData, onClickButton }) => {
         <Title>{name}</Title>
       </Link>
       <CategoryText>{categoryName}</CategoryText>
+      <Description>
+        {description.length > 150
+          ? `${description.slice(0, 150)}...`
+          : description}
+      </Description>
+      {/* <Description>{description}</Description> */}
       <Button onClick={() => onClickButton(id)}>
         Add to Cart&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;${price}
       </Button>
@@ -34,6 +42,7 @@ const FeaturedItem = ({ itemData, onClickButton }) => {
 FeaturedItem.propTypes = {
   itemData: PropTypes.shape({
     categoryName: PropTypes.string.isRequired,
+    description: PropTypes.string,
     id: PropTypes.string.isRequired,
     image: PropTypes.shape({
       alt: PropTypes.string,

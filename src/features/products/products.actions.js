@@ -32,20 +32,29 @@ export const getProductById =
     }
   };
 
+// Searching products with search term url
+// https://wizeline-academy.cdn.prismic.io/api/v2/documents/search?
+// ref={apiRef}&q=[[at(document.type, "product")]]&
+// q=[[fulltext(document, "{searchTerm}")]]&lang=en-us&pageSize=20
+
 // TODO: we should be able to pass page number and category filter to the fetch
 // instead of just recieving all the items and filtering manually
 // Seems like we're able to pass "page" query param, but no idea on how to pass "category" query
 // param to recieved a filtered response
 export const getProducts =
-  ({ apiRef, controller, pageNumber = 1, pageSize = 16 }) =>
+  ({ apiRef, controller, pageNumber = 1, pageSize = 16, searchTerm }) =>
   async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
 
+      const searchParam = searchTerm
+        ? `&q=${encodeURIComponent(`[[fulltext(document, "${searchTerm}")]]`)}`
+        : '';
+
       const response = await fetch(
         `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
           '[[at(document.type, "product")]]'
-        )}&lang=en-us&pageSize=${pageSize}&page=${pageNumber}`,
+        )}${searchParam}&lang=en-us&pageSize=${pageSize}&page=${pageNumber}`,
         {
           signal: controller.signal,
         }
