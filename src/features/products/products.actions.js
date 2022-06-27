@@ -1,10 +1,12 @@
+import { getCategory } from 'features/categories/categories.actions';
+import toast from 'react-hot-toast';
+import { API_BASE_URL, basePaginationData } from 'utils/constants';
 import {
   setProduct,
   setProducts,
   setIsLoading,
   setPaginationData,
 } from './products.slice';
-import { API_BASE_URL, basePaginationData } from 'utils/constants';
 
 export const getProductById =
   ({ apiRef, controller, productId }) =>
@@ -22,10 +24,13 @@ export const getProductById =
       );
       const data = await response.json();
       const { results } = data;
+      const { category } = results[0].data;
 
+      dispatch(getCategory({ apiRef, controller, categoryId: category.id }));
       dispatch(setProduct(results[0]));
     } catch (err) {
       dispatch(setProduct(undefined));
+      toast.error(err.message);
       console.error(err);
     } finally {
       dispatch(setIsLoading(false));
@@ -82,6 +87,7 @@ export const getProducts =
     } catch (err) {
       dispatch(setProducts([]));
       dispatch(setPaginationData({ ...basePaginationData }));
+      toast.error(err.message);
       console.error(err);
     } finally {
       dispatch(setIsLoading(false));

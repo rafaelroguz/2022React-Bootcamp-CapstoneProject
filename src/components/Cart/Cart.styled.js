@@ -1,6 +1,20 @@
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
+export const Bubble = styled.span`
+  align-items: center;
+  background-color: ${colors.secondary};
+  border-radius: 50%;
+  bottom: 0;
+  display: flex;
+  font-weight: bold;
+  height: 24px;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  width: 24px;
+`;
+
 export const CartButton = styled.button`
   align-items: center;
   background-color: transparent;
@@ -9,6 +23,7 @@ export const CartButton = styled.button`
   height: 100%;
   justify-content: center;
   padding: 0;
+  position: relative;
   white-space: nowrap;
 `;
 

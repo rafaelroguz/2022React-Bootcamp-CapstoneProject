@@ -1,6 +1,7 @@
 import FeaturedItem from 'components/FeaturedItem';
 import LoadingContainer from 'components/LoadingContainer';
 import Pagination from 'components/Pagination';
+import { addProductToCart } from 'features/cart/cart.slice';
 import { getCategories } from 'features/categories/categories.actions';
 import {
   selectCategories,
@@ -15,6 +16,7 @@ import {
 import { setProducts } from 'features/products/products.slice';
 import { useLatestAPI } from 'hooks/useLatestAPI';
 import React, { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Content, ContentGrid, Title } from './SearchResults.styled';
@@ -99,7 +101,8 @@ const SearchResults = () => {
   const handleChangePage = (newPage) => setCurrentPage(newPage);
 
   const handleClickAddToCartButton = (productId) => {
-    console.log(`Product ${productId} added to cart`);
+    toast.success('Product added to cart!');
+    dispatch(addProductToCart({ productId, quantity: 1 }));
   };
 
   return (
