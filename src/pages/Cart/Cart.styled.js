@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import colors from 'styles/colors';
 
 export const Container = styled.div`
   background-color: white;
@@ -33,6 +34,11 @@ export const TotalContainer = styled.div`
 
   & button {
     max-width: 200px;
+  }
+
+  & button:last-child {
+    background-color: ${colors.error};
+    margin-top: 16px;
   }
 
   & h2 {

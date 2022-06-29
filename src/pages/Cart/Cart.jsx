@@ -9,6 +9,7 @@ import {
   selectIsLoadingCart,
 } from 'features/cart/cart.selectors';
 import {
+  clearCart,
   removeProductFromCart,
   setProducts,
   updateCartProduct,
@@ -101,6 +102,11 @@ const Cart = () => {
     dispatch(updateCartProduct({ productId, quantity }));
   };
 
+  const handleClickClearCart = () => {
+    toast.success('Your cart was cleared correctly!');
+    dispatch(clearCart());
+  };
+
   const handleClickRemove = (productId) => {
     toast.success('Removed product from cart successfully!');
     dispatch(removeProductFromCart(productId));
@@ -113,7 +119,7 @@ const Cart = () => {
           Looks like you don't have products yet!
         </EmptyCartMessage>
       )}
-      {!isLoadingProducts && itemList.length && (
+      {!isLoadingProducts && !!itemList.length && (
         <Fragment>
           <Title>Your Cart</Title>
           <Container>
@@ -132,6 +138,7 @@ const Cart = () => {
           <TotalContainer>
             <h2>{`Total: $${total}`}</h2>
             <Button onClick={handleClickCheckout}>Proceed to Checkout</Button>
+            <Button onClick={handleClickClearCart}>Clear Cart</Button>
           </TotalContainer>
         </Fragment>
       )}
