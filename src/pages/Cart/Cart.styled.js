@@ -20,3 +20,23 @@ export const Title = styled.h1`
   font-size: 1.5rem;
   margin: 8px 0 24px 0;
 `;
+
+export const TotalContainer = styled.div`
+  align-items: center;
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 16px 32px 16px;
+  width: 100%;
+
+  & button {
+    max-width: 200px;
+  }
+
+  & h2 {
+    font-size: 1.5rem;
+    margin: 0 auto 16px auto;
+  }
+`;

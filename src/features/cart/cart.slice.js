@@ -66,6 +66,21 @@ export const productsSlice = createSlice({
       localStorage.removeItem(CART_STORAGE);
       localStorage.setItem(CART_STORAGE, JSON.stringify(state.productsIds));
     },
+    updateCartProduct: (state, action) => {
+      const index = state.productsIds.findIndex(
+        ({ productId }) => productId === action.payload.productId
+      );
+
+      if (index > -1) {
+        const product = state.productsIds[index];
+        state.productsIds[index] = {
+          ...product,
+          quantity: action.payload.quantity,
+        };
+        localStorage.removeItem(CART_STORAGE);
+        localStorage.setItem(CART_STORAGE, JSON.stringify(state.productsIds));
+      }
+    },
   },
 });
 
@@ -75,6 +90,7 @@ export const {
   setIsLoading,
   setProducts,
   setProductsIds,
+  updateCartProduct,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

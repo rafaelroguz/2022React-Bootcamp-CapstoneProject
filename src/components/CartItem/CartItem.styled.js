@@ -1,11 +1,24 @@
+import BaseButton from 'components/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
+export const Button = styled(BaseButton)`
+  max-width: 120px;
+`;
+
+export const RemoveButton = styled(Button)`
+  background-color: ${colors.error};
+`;
+
 export const ColumnContainer = styled.div`
+  align-items: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'center' : 'flex-start'};
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  flex-grow: 1;
+  justify-content: space-between;
+  width: 100%;
 
   & h3 {
     font-size: 1.25rem;
@@ -14,27 +27,40 @@ export const ColumnContainer = styled.div`
 `;
 
 export const Container = styled.div`
+  align-items: center;
+  box-sizing: border-box;
   display: flex;
+  flex-direction: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'column' : 'row'};
+  /* gap: ${({ $isSmallDevice }) => ($isSmallDevice ? '24px' : '80px')}; */
   gap: 24px;
+  padding: 0 40px;
+  width: 100%;
 
   & img {
     height: 150px;
     object-fit: contain;
     width: 150px;
-    /* max-height: 150px;
-    height: 100%;
-    max-width: 150px;
-    object-fit: contain;
-    width: 100%; */
   }
 `;
 
 export const FlexContainer = styled.div`
   align-items: center;
   display: flex;
-  /* flex-wrap: wrap; */
-  gap: 24px;
-  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'center' : 'flex-start'};
+  gap: 16px;
+  width: 100%;
+`;
+
+export const ButtonsContainer = styled(FlexContainer)`
+  align-items: flex-end;
+  flex-direction: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'row' : 'column'};
+  flex-grow: 1;
+  justify-content: center;
+  width: 100%;
 `;
 
 export const Input = styled.input`
@@ -43,7 +69,7 @@ export const Input = styled.input`
   box-sizing: border-box;
   padding: 16px;
   height: 48px;
-  width: 100%;
+  width: 50px;
 
   &:active,
   &:focus {
@@ -72,6 +98,10 @@ export const Link = styled(RouterLink)`
   margin: 0;
   text-decoration: none;
 
+  & h3 {
+    text-align: ${({ $isSmallDevice }) => ($isSmallDevice ? 'center' : 'left')};
+  }
+
   &:visited {
     color: ${colors.textPrimary};
   }
@@ -80,6 +110,13 @@ export const Link = styled(RouterLink)`
     color: ${colors.secondary};
     text-decoration: underline;
   }
+`;
+
+export const LinkContainer = styled.div`
+  display: flex;
+  justify-content: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'center' : 'flex-start'};
+  width: 100%;
 `;
 
 export const PriceLabel = styled(Label)`

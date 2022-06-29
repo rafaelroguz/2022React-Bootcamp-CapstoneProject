@@ -1,3 +1,4 @@
+import Button from 'components/Button';
 import CartItem from 'components/CartItem';
 import Divider from 'components/Divider';
 import LoadingContainer from 'components/LoadingContainer';
@@ -8,18 +9,29 @@ import {
   selectIsLoadingCart,
 } from 'features/cart/cart.selectors';
 import {
-  addProductToCart,
   removeProductFromCart,
   setProducts,
+  updateCartProduct,
 } from 'features/cart/cart.slice';
+import useGetScreenSize from 'hooks/useGetScreenSize';
 import { useLatestAPI } from 'hooks/useLatestAPI';
 import React, { Fragment, useEffect, useMemo } from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, EmptyCartMessage, Title } from './Cart.styled';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from 'utils/routes';
+import {
+  Container,
+  EmptyCartMessage,
+  Title,
+  TotalContainer,
+} from './Cart.styled';
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
+  const { isMobile, isTablet } = useGetScreenSize();
+  const navigate = useNavigate();
   const isLoadingProducts = useSelector(selectIsLoadingCart);
   const products = useSelector(selectCartProducts);
   const productsIds = useSelector(selectCartProductsIds);
@@ -47,8 +59,6 @@ const Cart = () => {
     };
   }, [apiRef, dispatch, isApiMetadataLoading, productsIds]);
 
-  console.log(products);
-
   const itemList = useMemo(() => {
     if (!products.length || !productsIds.length) return [];
 
@@ -72,40 +82,58 @@ const Cart = () => {
         price,
         quantity,
         stock,
+        subtotal: quantity * price,
       };
     });
   }, [products, productsIds]);
 
+  const total = useMemo(
+    () => itemList.reduce((acc, { subtotal }) => acc + subtotal, 0),
+    [itemList]
+  );
+
+  const handleClickCheckout = () => {
+    navigate(ROUTES.CHECKOUT);
+  };
+
   const handleChangeQuantity = (productId, quantity) => {
-    dispatch(addProductToCart({ productId, quantity }));
+    toast.success(`Updated product quantity to ${quantity}!`);
+    dispatch(updateCartProduct({ productId, quantity }));
   };
 
   const handleClickRemove = (productId) => {
+    toast.success('Removed product from cart successfully!');
     dispatch(removeProductFromCart(productId));
   };
 
   return (
     <LoadingContainer isLoading={isLoadingProducts}>
-      {!isLoadingProducts && products.length ? (
+      {!isLoadingProducts && !products.length && (
+        <EmptyCartMessage>
+          Looks like you don't have products yet!
+        </EmptyCartMessage>
+      )}
+      {!isLoadingProducts && itemList.length && (
         <Fragment>
           <Title>Your Cart</Title>
           <Container>
             {itemList.map((item, index) => (
               <Fragment key={item.id}>
                 <CartItem
+                  isSmallDevice={isMobile || isTablet}
                   itemData={item}
                   onChangeQuantity={handleChangeQuantity}
                   onClickRemove={handleClickRemove}
                 />
-                {index < itemList.length - 1 && <Divider />}
+                <Divider />
               </Fragment>
             ))}
           </Container>
+          <TotalContainer>
+            <h2>{`Total: $${total}`}</h2>
+            <Button onClick={handleClickCheckout}>Proceed to Checkout</Button>
+          </TotalContainer>
         </Fragment>
-      ) : (
-        <EmptyCartMessage>
-          Looks like you don't have products yet!
-        </EmptyCartMessage>
       )}
     </LoadingContainer>
   );
