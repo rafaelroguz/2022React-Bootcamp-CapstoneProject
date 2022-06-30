@@ -20,6 +20,7 @@ import React, { Fragment, useEffect, useMemo } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { formatToCurrency } from 'utils/currencyUtils';
 import { ROUTES } from 'utils/routes';
 import {
   Container,
@@ -136,7 +137,7 @@ const Cart = () => {
             ))}
           </Container>
           <TotalContainer>
-            <h2>{`Total: $${total}`}</h2>
+            <h2>{`Total: ${formatToCurrency(total)}`}</h2>
             <Button onClick={handleClickCheckout}>Proceed to Checkout</Button>
             <Button onClick={handleClickClearCart}>Clear Cart</Button>
           </TotalContainer>

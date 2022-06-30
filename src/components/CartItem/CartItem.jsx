@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { formatToCurrency } from 'utils/currencyUtils';
 import { ROUTES } from 'utils/routes';
 import {
   Button,
@@ -63,7 +64,7 @@ const CartItem = ({
         <Link to={productUrl}>
           <h3>{name}</h3>
         </Link>
-        <PriceLabel>{`$${price}`}</PriceLabel>
+        <PriceLabel>{formatToCurrency(price)}</PriceLabel>
         <FlexContainer $isSmallDevice={isSmallDevice}>
           <Label>Qty:</Label>
           <Input
@@ -74,8 +75,10 @@ const CartItem = ({
             value={quantity}
             onChange={handleChangeQuantity}
           />
-          <Label>{`Subtotal: $${
-            isNaN(quantity) ? '0' : price * quantity
+          <Label>{`Subtotal: ${
+            isNaN(quantity)
+              ? formatToCurrency(0)
+              : formatToCurrency(price * quantity)
           }`}</Label>
         </FlexContainer>
       </ColumnContainer>
