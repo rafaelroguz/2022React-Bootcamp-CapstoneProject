@@ -1,10 +1,10 @@
-import { ReactComponent as DotIcon } from "assets/svg/dot.svg";
-import { ReactComponent as LeftChevronIcon } from "assets/svg/leftchevron.svg";
-import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg";
-import CarouselItem from "components/CarouselItem";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-import useGetScreenSize from "hooks/useGetScreenSize";
+import { ReactComponent as DotIcon } from 'assets/svg/dot.svg';
+import { ReactComponent as LeftChevronIcon } from 'assets/svg/leftchevron.svg';
+import { ReactComponent as RightChevronIcon } from 'assets/svg/rightchevron.svg';
+import CarouselItem from 'components/CarouselItem';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import useGetScreenSize from 'hooks/useGetScreenSize';
 import {
   ButtonsContainer,
   ButtonsContent,
@@ -13,7 +13,7 @@ import {
   IndicatorButton,
   IndicatorsContainer,
   InnerContainer,
-} from "./Carousel.styled";
+} from './Carousel.styled';
 
 const Carousel = ({ itemList }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,13 +61,13 @@ const Carousel = ({ itemList }) => {
       <InnerContainer
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {itemList.map(({ alt, elementUrl, id, name, imageUrl }) => (
+        {itemList.map(({ alt, id, itemUrl, label, imageUrl }) => (
           <CarouselItem
             alt={alt}
-            categoryName={name}
-            categoryUrl={elementUrl}
             imageUrl={imageUrl}
+            itemUrl={itemUrl}
             key={id}
+            label={label}
           />
         ))}
       </InnerContainer>
@@ -101,10 +101,10 @@ Carousel.propTypes = {
   itemList: PropTypes.arrayOf(
     PropTypes.shape({
       alt: PropTypes.string.isRequired,
-      elementUrl: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
       imageUrl: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      itemUrl: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
     })
   ),
 };

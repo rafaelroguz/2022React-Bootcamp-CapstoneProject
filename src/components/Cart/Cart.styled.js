@@ -1,19 +1,25 @@
-import styled from "styled-components";
-import colors from "styles/colors";
+import styled from 'styled-components';
+import colors from 'styles/colors';
 
-export const CartLink = styled.a`
+export const CartButton = styled.button`
   align-items: center;
+  background-color: transparent;
+  border: none;
   display: flex;
   height: 100%;
   justify-content: center;
-  text-decoration: none;
+  padding: 0;
   white-space: nowrap;
 `;
 
 export const Container = styled.div`
+  align-items: center;
+  display: flex;
   height: 48px;
+  justify-content: center;
   padding: 16px;
-  ${({ $isMobile }) => ($isMobile ? "width: 50%;" : "")}
+  white-space: nowrap;
+  ${({ $isMobile }) => ($isMobile ? 'width: 50%;' : '')}
 `;
 
 export const IconContainer = styled.div`

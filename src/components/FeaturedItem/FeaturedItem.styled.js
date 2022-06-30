@@ -1,15 +1,6 @@
-import styled from "styled-components";
-import colors from "styles/colors";
-
-export const AddToCardButton = styled.button`
-  background-color: ${colors.secondary};
-  border: none;
-  border-radius: 8px;
-  color: black;
-  font-weight: bold;
-  height: 48px;
-  padding: 8px 16px;
-`;
+import { Link as RouterLink } from 'react-router-dom';
+import styled from 'styled-components';
+import colors from 'styles/colors';
 
 export const Card = styled.div`
   align-items: center;
@@ -19,7 +10,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding: 32px;
 `;
 
 export const CategoryText = styled.p`
@@ -27,10 +18,30 @@ export const CategoryText = styled.p`
   margin: 8px 0 40px 0;
 `;
 
+export const Description = styled.p`
+  font-size: 1rem;
+  width: 100%;
+  margin: 0 0 40px 0;
+`;
+
 export const Picture = styled.img`
   height: auto;
   max-width: 250px;
   width: 100%;
+`;
+
+export const Link = styled(RouterLink)`
+  color: ${colors.textPrimary};
+  text-decoration: none;
+
+  &:visited {
+    color: ${colors.textPrimary};
+  }
+
+  &:hover {
+    color: ${colors.secondary};
+    text-decoration: underline;
+  }
 `;
 
 export const Title = styled.p`

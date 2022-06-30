@@ -1,23 +1,24 @@
-import { ReactComponent as LeftChevronIcon } from "assets/svg/leftchevron.svg";
-import { ReactComponent as RightChevronIcon } from "assets/svg/rightchevron.svg";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-import useGetScreenSize from "hooks/useGetScreenSize";
+import { ReactComponent as LeftChevronIcon } from 'assets/svg/leftchevron.svg';
+import { ReactComponent as RightChevronIcon } from 'assets/svg/rightchevron.svg';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import useGetScreenSize from 'hooks/useGetScreenSize';
 import {
   ButtonsContainer,
   Container,
   ControlButton,
   DisplayedImage,
+  ImageContainer,
   ImageLink,
-} from "./Slider.styled";
+} from './Slider.styled';
 
 const Slider = ({ itemList }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { isMobile } = useGetScreenSize();
   const {
-    alt = "",
-    elementUrl = "",
-    imageUrl = "",
+    alt = '',
+    elementUrl = '',
+    imageUrl = '',
   } = itemList[currentIndex] || {};
 
   const handleClickNext = () => {
@@ -35,32 +36,50 @@ const Slider = ({ itemList }) => {
   if (isMobile) {
     return (
       <Container $isMobile={isMobile}>
-        <ImageLink href={elementUrl} $isMobile={isMobile}>
-          <DisplayedImage alt={alt} src={imageUrl} />
-        </ImageLink>
-        <ButtonsContainer>
-          <ControlButton onClick={handleClickPrevious}>
-            <LeftChevronIcon />
-          </ControlButton>
-          <ControlButton onClick={handleClickNext}>
-            <RightChevronIcon />
-          </ControlButton>
-        </ButtonsContainer>
+        {!!elementUrl ? (
+          <ImageLink href={elementUrl} $isMobile={isMobile}>
+            <DisplayedImage alt={alt} src={imageUrl} />
+          </ImageLink>
+        ) : (
+          <ImageContainer $isMobile={isMobile}>
+            <DisplayedImage alt={alt} src={imageUrl} />
+          </ImageContainer>
+        )}
+        {itemList.length > 1 && (
+          <ButtonsContainer>
+            <ControlButton onClick={handleClickPrevious}>
+              <LeftChevronIcon />
+            </ControlButton>
+            <ControlButton onClick={handleClickNext}>
+              <RightChevronIcon />
+            </ControlButton>
+          </ButtonsContainer>
+        )}
       </Container>
     );
   }
 
   return (
     <Container>
-      <ControlButton onClick={handleClickPrevious}>
-        <LeftChevronIcon />
-      </ControlButton>
-      <ImageLink href={elementUrl}>
-        <DisplayedImage alt={alt} src={imageUrl} />
-      </ImageLink>
-      <ControlButton onClick={handleClickNext}>
-        <RightChevronIcon />
-      </ControlButton>
+      {itemList.length > 1 && (
+        <ControlButton onClick={handleClickPrevious}>
+          <LeftChevronIcon />
+        </ControlButton>
+      )}
+      {!!elementUrl ? (
+        <ImageLink href={elementUrl}>
+          <DisplayedImage alt={alt} src={imageUrl} />
+        </ImageLink>
+      ) : (
+        <ImageContainer>
+          <DisplayedImage alt={alt} src={imageUrl} />
+        </ImageContainer>
+      )}
+      {itemList.length > 1 && (
+        <ControlButton onClick={handleClickNext}>
+          <RightChevronIcon />
+        </ControlButton>
+      )}
     </Container>
   );
 };
@@ -69,7 +88,7 @@ Slider.propTypes = {
   itemList: PropTypes.arrayOf(
     PropTypes.shape({
       alt: PropTypes.string.isRequired,
-      elementUrl: PropTypes.string.isRequired,
+      elementUrl: PropTypes.string,
       id: PropTypes.string.isRequired,
       imageUrl: PropTypes.string.isRequired,
     })
