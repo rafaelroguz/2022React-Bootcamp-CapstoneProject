@@ -1,6 +1,7 @@
 import Button from 'components/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { formatToCurrency } from 'utils/currencyUtils';
 import { ROUTES } from 'utils/routes';
 import {
   Card,
@@ -31,7 +32,8 @@ const FeaturedItem = ({ itemData, onClickButton }) => {
           : description}
       </Description>
       <Button onClick={() => onClickButton(id)}>
-        Add to Cart&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;${price}
+        Add to Cart&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        {formatToCurrency(price)}
       </Button>
     </Card>
   );

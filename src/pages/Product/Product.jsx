@@ -18,6 +18,7 @@ import { useLatestAPI } from 'hooks/useLatestAPI';
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { formatToCurrency } from 'utils/currencyUtils';
 import { ROUTES } from 'utils/routes';
 import { v4 as uuid } from 'uuid';
 import {
@@ -139,7 +140,7 @@ const Product = () => {
                 <Label>{`SKU: ${sku}`}</Label>
               </FlexContainer>
               <FlexContainer>
-                <PriceLabel>{`$ ${price}`}</PriceLabel>
+                <PriceLabel>{formatToCurrency(price)}</PriceLabel>
                 <Description>{description[0]?.text}</Description>
               </FlexContainer>
               <FlexContainer>
@@ -152,8 +153,10 @@ const Product = () => {
                   value={quantity}
                   onChange={handleChangeQuantity}
                 />
-                <Label>{`Total: $${
-                  isNaN(quantity) ? '0' : price * quantity
+                <Label>{`Total: ${
+                  isNaN(quantity)
+                    ? formatToCurrency(0)
+                    : formatToCurrency(price * quantity)
                 }`}</Label>
               </FlexContainer>
               <Button
