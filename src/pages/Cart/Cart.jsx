@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatToCurrency } from 'utils/currencyUtils';
 import { ROUTES } from 'utils/routes';
 import {
+  ClearCartButton,
   Container,
   EmptyCartMessage,
   Title,
@@ -132,14 +133,16 @@ const Cart = () => {
                   onChangeQuantity={handleChangeQuantity}
                   onClickRemove={handleClickRemove}
                 />
-                <Divider />
+                {index !== itemList.length - 1 && <Divider />}
               </Fragment>
             ))}
           </Container>
           <TotalContainer>
             <h2>{`Total: ${formatToCurrency(total)}`}</h2>
             <Button onClick={handleClickCheckout}>Proceed to Checkout</Button>
-            <Button onClick={handleClickClearCart}>Clear Cart</Button>
+            <ClearCartButton onClick={handleClickClearCart}>
+              Clear Cart
+            </ClearCartButton>
           </TotalContainer>
         </Fragment>
       )}

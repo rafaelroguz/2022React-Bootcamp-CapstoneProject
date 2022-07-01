@@ -4,7 +4,7 @@ import { API_BASE_URL } from 'utils/constants';
 import { setIsLoading, setProducts } from './cart.slice';
 
 export const getProductByIds =
-  ({ apiRef, controller, productIds }) =>
+  ({ apiRef, controller, fetchCategories = true, productIds }) =>
   async (dispatch) => {
     try {
       dispatch(setIsLoading(true));
@@ -14,7 +14,9 @@ export const getProductByIds =
         return;
       }
 
-      dispatch(getCategories(apiRef, controller));
+      if (fetchCategories) {
+        dispatch(getCategories(apiRef, controller));
+      }
 
       const idList = productIds.map((productId) => `"${productId}"`).join(',');
       const response = await fetch(

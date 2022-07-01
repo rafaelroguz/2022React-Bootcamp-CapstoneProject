@@ -1,8 +1,22 @@
+import Button from 'components/Button';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
+export const ClearCartButton = styled(Button)`
+  color: ${colors.textPrimary};
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    color: ${colors.secondary};
+    border: 2px solid ${colors.secondary};
+  }
+`;
+
 export const Container = styled.div`
   background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -25,11 +39,14 @@ export const Title = styled.h1`
 export const TotalContainer = styled.div`
   align-items: center;
   background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 16px 16px 32px 16px;
+  margin-top: 24px;
+  padding: 16px;
   width: 100%;
 
   & button {
@@ -37,7 +54,6 @@ export const TotalContainer = styled.div`
   }
 
   & button:last-child {
-    background-color: ${colors.error};
     margin-top: 16px;
   }
 
