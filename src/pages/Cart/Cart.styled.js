@@ -21,8 +21,16 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: fit-content;
   padding: 16px;
-  width: 100%;
+  width: ${({ $isSmallDevice }) => ($isSmallDevice ? '100%' : '70%')};
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: ${({ $isSmallDevice }) =>
+    $isSmallDevice ? 'column' : 'row'};
+  gap: 16px;
 `;
 
 export const EmptyCartMessage = styled.h2`
@@ -45,13 +53,9 @@ export const TotalContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 24px;
-  padding: 16px;
-  width: 100%;
-
-  & button {
-    max-width: 200px;
-  }
+  height: fit-content;
+  padding: 32px 16px;
+  width: ${({ $isSmallDevice }) => ($isSmallDevice ? '100%' : '30%')};
 
   & button:last-child {
     margin-top: 16px;
@@ -59,6 +63,6 @@ export const TotalContainer = styled.div`
 
   & h2 {
     font-size: 1.5rem;
-    margin: 0 auto 16px auto;
+    margin: 0 auto 40px auto;
   }
 `;

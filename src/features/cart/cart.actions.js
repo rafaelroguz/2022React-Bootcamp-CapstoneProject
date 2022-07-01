@@ -4,12 +4,14 @@ import { API_BASE_URL } from 'utils/constants';
 import { setIsLoading, setProducts } from './cart.slice';
 
 export const getProductByIds =
-  ({ apiRef, controller, fetchCategories = true, productIds }) =>
-  async (dispatch) => {
+  ({ apiRef, controller, fetchCategories = true }) =>
+  async (dispatch, select) => {
     try {
       dispatch(setIsLoading(true));
 
-      if (!productIds.length) {
+      const productsIds = select().cart.productsIds;
+
+      if (!productsIds.length) {
         dispatch(setProducts([]));
         return;
       }
@@ -18,7 +20,9 @@ export const getProductByIds =
         dispatch(getCategories(apiRef, controller));
       }
 
-      const idList = productIds.map((productId) => `"${productId}"`).join(',');
+      const idList = productsIds
+        .map(({ productId }) => `"${productId}"`)
+        .join(',');
       const response = await fetch(
         `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
           `[[in(document.id, [${idList}])]]`

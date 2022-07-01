@@ -11,6 +11,7 @@ import {
 import {
   clearCart,
   removeProductFromCart,
+  setIsLoading,
   setProducts,
   updateCartProduct,
 } from 'features/cart/cart.slice';
@@ -25,6 +26,7 @@ import { ROUTES } from 'utils/routes';
 import {
   ClearCartButton,
   Container,
+  Content,
   EmptyCartMessage,
   Title,
   TotalContainer,
@@ -39,20 +41,20 @@ const Cart = () => {
   const products = useSelector(selectCartProducts);
   const productsIds = useSelector(selectCartProductsIds);
 
+  const isSmallDevice = isMobile || isTablet;
+
   useEffect(() => {
-    if (!apiRef || isApiMetadataLoading || !productsIds) {
+    if (!apiRef || isApiMetadataLoading) {
+      dispatch(setIsLoading(false));
       return () => {};
     }
 
     const controller = new AbortController();
 
-    const ids = productsIds.map((product) => product.productId);
-
     dispatch(
       getProductByIds({
         apiRef,
         controller,
-        productIds: ids,
       })
     );
 
@@ -60,10 +62,10 @@ const Cart = () => {
       controller.abort();
       dispatch(setProducts([]));
     };
-  }, [apiRef, dispatch, isApiMetadataLoading, productsIds]);
+  }, [apiRef, dispatch, isApiMetadataLoading]);
 
   const itemList = useMemo(() => {
-    if (!products.length || !productsIds.length) return [];
+    if (!products.length || !productsIds?.length) return [];
 
     return products.map(({ data, id }) => {
       const {
@@ -124,26 +126,28 @@ const Cart = () => {
       {!isLoadingProducts && !!itemList.length && (
         <Fragment>
           <Title>Your Cart</Title>
-          <Container>
-            {itemList.map((item, index) => (
-              <Fragment key={item.id}>
-                <CartItem
-                  isSmallDevice={isMobile || isTablet}
-                  itemData={item}
-                  onChangeQuantity={handleChangeQuantity}
-                  onClickRemove={handleClickRemove}
-                />
-                {index !== itemList.length - 1 && <Divider />}
-              </Fragment>
-            ))}
-          </Container>
-          <TotalContainer>
-            <h2>{`Total: ${formatToCurrency(total)}`}</h2>
-            <Button onClick={handleClickCheckout}>Proceed to Checkout</Button>
-            <ClearCartButton onClick={handleClickClearCart}>
-              Clear Cart
-            </ClearCartButton>
-          </TotalContainer>
+          <Content $isSmallDevice={isSmallDevice}>
+            <Container $isSmallDevice={isSmallDevice}>
+              {itemList.map((item, index) => (
+                <Fragment key={item.id}>
+                  <CartItem
+                    isSmallDevice={isSmallDevice}
+                    itemData={item}
+                    onChangeQuantity={handleChangeQuantity}
+                    onClickRemove={handleClickRemove}
+                  />
+                  {index !== itemList.length - 1 && <Divider />}
+                </Fragment>
+              ))}
+            </Container>
+            <TotalContainer $isSmallDevice={isSmallDevice}>
+              <h2>{`Total: ${formatToCurrency(total)}`}</h2>
+              <Button onClick={handleClickCheckout}>Proceed to Checkout</Button>
+              <ClearCartButton onClick={handleClickClearCart}>
+                Clear Cart
+              </ClearCartButton>
+            </TotalContainer>
+          </Content>
         </Fragment>
       )}
     </LoadingContainer>

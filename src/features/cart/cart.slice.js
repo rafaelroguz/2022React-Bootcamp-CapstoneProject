@@ -21,7 +21,7 @@ const getInitialCart = () => {
 };
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   products: [],
   productsIds: getInitialCart(),
 };
@@ -57,6 +57,7 @@ export const productsSlice = createSlice({
       state.productsIds = state.productsIds.filter(
         ({ productId }) => productId !== action.payload
       );
+      state.products = state.products.filter(({ id }) => id !== action.payload);
       localStorage.removeItem(CART_STORAGE);
       localStorage.setItem(CART_STORAGE, JSON.stringify(state.productsIds));
     },

@@ -46,6 +46,12 @@ export const FormContent = styled.div`
   width: 100%;
 `;
 
+export const EmptyCartMessage = styled.h2`
+  font-size: 1.5rem;
+  margin: 24px auto;
+  text-align: center;
+`;
+
 export const Input = styled.input`
   border: 1px solid ${colors.secondary};
   border-radius: 4px;

@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {
   BackToCartButton,
+  EmptyCartMessage,
   ErrorMessage,
   FieldContainer,
   Form,
@@ -26,7 +27,7 @@ import {
   selectIsLoadingCart,
 } from 'features/cart/cart.selectors';
 import { getProductByIds } from 'features/cart/cart.actions';
-import { setProducts } from 'features/cart/cart.slice';
+import { setIsLoading, setProducts } from 'features/cart/cart.slice';
 import SummaryItem from 'components/SummaryItem';
 import { formatToCurrency } from 'utils/currencyUtils';
 import Divider from 'components/Divider';
@@ -79,19 +80,18 @@ const Checkout = () => {
   const isSmallDevice = isMobile || isTablet;
 
   useEffect(() => {
-    if (!apiRef || isApiMetadataLoading || !productsIds?.length) {
+    if (!apiRef || isApiMetadataLoading) {
+      dispatch(setIsLoading(false));
       return () => {};
     }
 
     const controller = new AbortController();
-    const ids = productsIds.map((product) => product.productId);
 
     dispatch(
       getProductByIds({
         apiRef,
         controller,
         fetchCategories: false,
-        productIds: ids,
       })
     );
 
@@ -145,59 +145,66 @@ const Checkout = () => {
 
   return (
     <LoadingContainer isLoading={isLoadingProducts}>
-      <Fragment>
-        <Title>Checkout</Title>
-        <Form
-          $isSmallDevice={isSmallDevice}
-          onSubmit={handleSubmit(handleClickSubmit)}
-        >
-          <FormContent $isSmallDevice={isSmallDevice}>
-            <FieldContainer>
-              <Label htmlFor='name'>Name</Label>
-              <Input {...register('name')} />
-              {errors.name && <ErrorMessage>Name is required</ErrorMessage>}
-            </FieldContainer>
-            <FieldContainer>
-              <Label htmlFor='email'>Email</Label>
-              <Input {...register('email')} />
-              {errors.email && (
-                <ErrorMessage>Invalid/missing Email</ErrorMessage>
-              )}
-            </FieldContainer>
-            <FieldContainer>
-              <Label htmlFor='pc'>Postal Code / Zip</Label>
-              <Input type='number' {...register('pc')} />
-              {errors.pc && (
-                <ErrorMessage>
-                  Invalid/missing Postal Code / Zip code
-                </ErrorMessage>
-              )}
-            </FieldContainer>
-            <FieldContainer>
-              <Label htmlFor='comments'>Comments</Label>
-              <TextArea
-                maxLength={COMMENTS_MAX_LENGTH}
-                rows={isSmallDevice ? 8 : 4}
-                {...register('comments')}
-              />
-              {errors.comments && (
-                <ErrorMessage>{errors.comments.message}</ErrorMessage>
-              )}
-            </FieldContainer>
-          </FormContent>
-          <SummaryContent $isSmallDevice={isSmallDevice}>
-            {itemList.map((item) => (
-              <SummaryItem item={item} key={item.id} />
-            ))}
-            <Divider />
-            <Total>Total: {total}</Total>
-            <Button type='submit'>Place Order</Button>
-            <BackToCartButton onClick={handleClickBackToCart}>
-              Back to Cart
-            </BackToCartButton>
-          </SummaryContent>
-        </Form>
-      </Fragment>
+      {!isLoadingProducts && !products.length && (
+        <EmptyCartMessage>
+          Looks like you don't have products yet!
+        </EmptyCartMessage>
+      )}
+      {!isLoadingProducts && !!products.length && (
+        <Fragment>
+          <Title>Checkout</Title>
+          <Form
+            $isSmallDevice={isSmallDevice}
+            onSubmit={handleSubmit(handleClickSubmit)}
+          >
+            <FormContent $isSmallDevice={isSmallDevice}>
+              <FieldContainer>
+                <Label htmlFor='name'>Name</Label>
+                <Input {...register('name')} />
+                {errors.name && <ErrorMessage>Name is required</ErrorMessage>}
+              </FieldContainer>
+              <FieldContainer>
+                <Label htmlFor='email'>Email</Label>
+                <Input {...register('email')} />
+                {errors.email && (
+                  <ErrorMessage>Invalid/missing Email</ErrorMessage>
+                )}
+              </FieldContainer>
+              <FieldContainer>
+                <Label htmlFor='pc'>Postal Code / Zip</Label>
+                <Input type='number' {...register('pc')} />
+                {errors.pc && (
+                  <ErrorMessage>
+                    Invalid/missing Postal Code / Zip code
+                  </ErrorMessage>
+                )}
+              </FieldContainer>
+              <FieldContainer>
+                <Label htmlFor='comments'>Comments</Label>
+                <TextArea
+                  maxLength={COMMENTS_MAX_LENGTH}
+                  rows={isSmallDevice ? 8 : 4}
+                  {...register('comments')}
+                />
+                {errors.comments && (
+                  <ErrorMessage>{errors.comments.message}</ErrorMessage>
+                )}
+              </FieldContainer>
+            </FormContent>
+            <SummaryContent $isSmallDevice={isSmallDevice}>
+              {itemList.map((item) => (
+                <SummaryItem item={item} key={item.id} />
+              ))}
+              <Divider />
+              <Total>Total: {total}</Total>
+              <Button type='submit'>Place Order</Button>
+              <BackToCartButton onClick={handleClickBackToCart}>
+                Back to Cart
+              </BackToCartButton>
+            </SummaryContent>
+          </Form>
+        </Fragment>
+      )}
     </LoadingContainer>
   );
 };

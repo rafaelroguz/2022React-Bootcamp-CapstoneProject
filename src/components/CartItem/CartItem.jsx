@@ -1,19 +1,19 @@
+import { ReactComponent as TrashIcon } from 'assets/svg/trash.svg';
+import QuantityInput from 'components/QuantityInput';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { formatToCurrency } from 'utils/currencyUtils';
 import { ROUTES } from 'utils/routes';
 import {
-  Button,
-  ButtonsContainer,
   ColumnContainer,
   Container,
   FlexContainer,
-  Input,
   Label,
   Link,
-  LinkContainer,
   PriceLabel,
   RemoveButton,
+  SubtotalLabel,
 } from './CartItem.styled';
 
 const CartItem = ({
@@ -22,31 +22,26 @@ const CartItem = ({
   onChangeQuantity,
   onClickRemove,
 }) => {
-  const { id, image, name, price, quantity: initialQuantity, stock } = itemData;
+  const {
+    id,
+    image,
+    name,
+    price,
+    quantity: initialQuantity,
+    stock,
+    subtotal,
+  } = itemData;
   const { alt, url } = image;
-  const [quantity, setQuantity] = useState(initialQuantity);
 
-  const disableEdit = initialQuantity === quantity || isNaN(quantity);
   const productUrl = `${ROUTES.PRODUCT}/${id}`;
 
-  const handleChangeQuantity = ({ target: { value } }) => {
-    const inputQuantity = parseInt(value, 10);
-
-    if (inputQuantity > stock) {
-      setQuantity(stock);
-      return;
-    }
-
-    setQuantity(inputQuantity);
-  };
-
-  const handleClickEdit = () => {
-    if (quantity === 0) {
+  const handleChangeQuantity = (newQuantity) => {
+    if (newQuantity === 0) {
       onClickRemove(id);
       return;
     }
 
-    onChangeQuantity(id, quantity);
+    onChangeQuantity(id, newQuantity);
   };
 
   const handleClickRemove = () => {
@@ -55,11 +50,9 @@ const CartItem = ({
 
   return (
     <Container $isSmallDevice={isSmallDevice}>
-      <LinkContainer $isSmallDevice={isSmallDevice}>
-        <Link $isSmallDevice={isSmallDevice} to={productUrl}>
-          <img alt={alt || name} src={url} />
-        </Link>
-      </LinkContainer>
+      <RouterLink to={productUrl}>
+        <img alt={alt || name} src={url} />
+      </RouterLink>
       <ColumnContainer $isSmallDevice={isSmallDevice}>
         <Link to={productUrl}>
           <h3>{name}</h3>
@@ -67,27 +60,21 @@ const CartItem = ({
         <PriceLabel>{formatToCurrency(price)}</PriceLabel>
         <FlexContainer $isSmallDevice={isSmallDevice}>
           <Label>Qty:</Label>
-          <Input
+          <QuantityInput
             disabled={!stock}
+            initialValue={initialQuantity}
             max={stock}
             min={1}
-            type='number'
-            value={quantity}
-            onChange={handleChangeQuantity}
+            onChangeQuantity={handleChangeQuantity}
           />
-          <Label>{`Subtotal: ${
-            isNaN(quantity)
-              ? formatToCurrency(0)
-              : formatToCurrency(price * quantity)
-          }`}</Label>
         </FlexContainer>
+        <SubtotalLabel>{`Subtotal: ${formatToCurrency(
+          subtotal
+        )}`}</SubtotalLabel>
       </ColumnContainer>
-      <ButtonsContainer $isSmallDevice={isSmallDevice}>
-        <Button disabled={disableEdit} onClick={handleClickEdit}>
-          Update Qty
-        </Button>
-        <RemoveButton onClick={handleClickRemove}>Remove</RemoveButton>
-      </ButtonsContainer>
+      <RemoveButton onClick={handleClickRemove}>
+        <TrashIcon />
+      </RemoveButton>
     </Container>
   );
 };
