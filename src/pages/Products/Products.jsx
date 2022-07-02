@@ -4,7 +4,6 @@ import FeaturedItem from 'components/FeaturedItem';
 import LoadingContainer from 'components/LoadingContainer';
 import Pagination from 'components/Pagination';
 import { addProductToCart } from 'features/cart/cart.slice';
-import { getCategories } from 'features/categories/categories.actions';
 import {
   selectCategories,
   selectIsLoadingCategories,
@@ -13,6 +12,7 @@ import { getProducts } from 'features/products/products.actions';
 import {
   selectIsLoadingProducts,
   selectProducts,
+  selectProductsPaginationData,
 } from 'features/products/products.selectors';
 import { setProducts } from 'features/products/products.slice';
 import useGetScreenSize from 'hooks/useGetScreenSize';
@@ -40,6 +40,7 @@ const Products = () => {
   const isLoadingCategories = useSelector(selectIsLoadingCategories);
   const isLoadingProducts = useSelector(selectIsLoadingProducts);
   const productsList = useSelector(selectProducts);
+  const pagination = useSelector(selectProductsPaginationData);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -53,12 +54,13 @@ const Products = () => {
 
     const controller = new AbortController();
 
-    dispatch(getCategories(apiRef, controller));
     dispatch(
       getProducts({
         apiRef,
         controller,
-        pageSize: 30,
+        pageNumber: currentPage,
+        pageSize,
+        selectedCategories,
       })
     );
 
@@ -66,7 +68,7 @@ const Products = () => {
       controller.abort();
       dispatch(setProducts([]));
     };
-  }, [apiRef, dispatch, isApiMetadataLoading]);
+  }, [apiRef, currentPage, dispatch, isApiMetadataLoading, selectedCategories]);
 
   useEffect(() => {
     if (!categoryParam || !categoriesList.length) return;
@@ -80,22 +82,9 @@ const Products = () => {
     }
   }, [categoriesList, categoryParam]);
 
-  const filteredItems = useMemo(() => {
-    if (!selectedCategories.length) {
-      return productsList;
-    }
-
-    return productsList.filter(({ data }) =>
-      selectedCategories.includes(data.category.id)
-    );
-  }, [selectedCategories, productsList]);
-
-  const mappedItems = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * pageSize;
-    const lastPageIndex = firstPageIndex + pageSize;
-
-    return filteredItems
-      .map((product) => {
+  const mappedItems = useMemo(
+    () =>
+      productsList.map((product) => {
         const { data, id } = product;
         const {
           category: { id: categoryId },
@@ -115,9 +104,9 @@ const Products = () => {
           name,
           price,
         };
-      })
-      .slice(firstPageIndex, lastPageIndex);
-  }, [categoriesList, currentPage, filteredItems]);
+      }),
+    [categoriesList, productsList]
+  );
 
   useEffect(() => setCurrentPage(1), [selectedCategories]);
 
@@ -152,7 +141,7 @@ const Products = () => {
   const handleClickClearFilters = () => setSelectedCategories([]);
 
   return (
-    <LoadingContainer isLoading={isLoadingCategories && isLoadingProducts}>
+    <LoadingContainer isLoading={isLoadingCategories || isLoadingProducts}>
       <Title>All Products</Title>
       <Container $isMobile={isMobile}>
         <SideBar $isMobile={isMobile}>
@@ -171,7 +160,7 @@ const Products = () => {
           {!!mappedItems.length && (
             <Pagination
               currentPage={currentPage}
-              totalCount={filteredItems.length}
+              totalCount={pagination.totalResultsSize}
               pageSize={pageSize}
               onPageChange={handleChangePage}
             />
@@ -188,7 +177,7 @@ const Products = () => {
           {!!mappedItems.length && (
             <Pagination
               currentPage={currentPage}
-              totalCount={filteredItems.length}
+              totalCount={pagination.totalResultsSize}
               pageSize={pageSize}
               onPageChange={handleChangePage}
             />

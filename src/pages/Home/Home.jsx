@@ -1,7 +1,6 @@
 import FeaturedBanners from 'components/FeaturedBanners';
 import ProductCategories from 'components/ProductCategories';
 import FeaturedProducts from 'components/FeaturedProducts';
-import { getCategories } from 'features/categories/categories.actions';
 import { getFeaturedBanners } from 'features/featuredBanners/featuredBanners.actions';
 import React, { Fragment, useEffect } from 'react';
 import { useLatestAPI } from 'hooks/useLatestAPI';
@@ -21,8 +20,7 @@ export const Home = () => {
     const controller = new AbortController();
 
     dispatch(getFeaturedBanners(apiRef, controller));
-    dispatch(getCategories(apiRef, controller));
-    dispatch(getProducts({ apiRef, controller }));
+    dispatch(getProducts({ apiRef, controller, fetchFeaturedProducts: true }));
 
     return () => {
       controller.abort();

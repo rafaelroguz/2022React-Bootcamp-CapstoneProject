@@ -1,4 +1,7 @@
-import { getCategory } from 'features/categories/categories.actions';
+import {
+  getCategories,
+  getCategory,
+} from 'features/categories/categories.actions';
 import toast from 'react-hot-toast';
 import { API_BASE_URL, basePaginationData } from 'utils/constants';
 import {
@@ -37,28 +40,42 @@ export const getProductById =
     }
   };
 
-// Searching products with search term url
-// https://wizeline-academy.cdn.prismic.io/api/v2/documents/search?
-// ref={apiRef}&q=[[at(document.type, "product")]]&
-// q=[[fulltext(document, "{searchTerm}")]]&lang=en-us&pageSize=20
-
-// TODO: we should be able to pass page number and category filter to the fetch
-// instead of just recieving all the items and filtering manually
-// Seems like we're able to pass "page" query param, but no idea on how to pass "category" query
-// param to recieved a filtered response
 export const getProducts =
-  ({ apiRef, controller, pageNumber = 1, pageSize = 16, searchTerm }) =>
-  async (dispatch) => {
+  ({
+    apiRef,
+    controller,
+    fetchFeaturedProducts,
+    pageNumber = 1,
+    pageSize = 16,
+    searchTerm,
+    selectedCategories = [],
+  }) =>
+  async (dispatch, select) => {
     try {
       dispatch(setIsLoading(true));
 
+      const categories = select().categories.data;
+
+      if (!categories?.length) {
+        dispatch(getCategories(apiRef, controller));
+      }
+
+      const featuredFilterParam = fetchFeaturedProducts
+        ? '[at(document.tags, ["Featured"])]'
+        : '';
+      const parsedCategories = selectedCategories.length
+        ? selectedCategories.map((category) => `"${category}"`).join(',')
+        : [];
       const searchParam = searchTerm
         ? `&q=${encodeURIComponent(`[[fulltext(document, "${searchTerm}")]]`)}`
         : '';
-
+      const baseParam = '[at(document.type, "product")]';
+      const filterParam = parsedCategories.length
+        ? `[any(my.product.category, [${parsedCategories}])]`
+        : '';
       const response = await fetch(
         `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
-          '[[at(document.type, "product")]]'
+          `[${baseParam}${featuredFilterParam}${filterParam}]`
         )}${searchParam}&lang=en-us&pageSize=${pageSize}&page=${pageNumber}`,
         {
           signal: controller.signal,

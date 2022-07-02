@@ -45,10 +45,6 @@ const SearchResults = () => {
 
     const controller = new AbortController();
 
-    if (!categoriesList.length) {
-      dispatch(getCategories(apiRef, controller));
-    }
-
     dispatch(
       getProducts({
         apiRef,
@@ -63,14 +59,7 @@ const SearchResults = () => {
       controller.abort();
       dispatch(setProducts([]));
     };
-  }, [
-    apiRef,
-    categoriesList,
-    currentPage,
-    dispatch,
-    isApiMetadataLoading,
-    searchParam,
-  ]);
+  }, [apiRef, currentPage, dispatch, isApiMetadataLoading, searchParam]);
 
   const mappedItems = useMemo(() => {
     return foundProducts.map((product) => {
