@@ -9,9 +9,16 @@ const ACTIONS = {
 };
 
 const QuantityInput = (props) => {
-  const { initialValue, max, min, onChangeQuantity, ...rest } = props;
+  const {
+    debounceTimeOut = 500,
+    initialValue,
+    max,
+    min,
+    onChangeQuantity,
+    ...rest
+  } = props;
   const debounceUpdateQuantity = useRef(
-    debounce(onChangeQuantity, 500)
+    debounce(onChangeQuantity, debounceTimeOut)
   ).current;
   const [value, setValue] = useState(initialValue ?? 0);
 
@@ -51,10 +58,7 @@ const QuantityInput = (props) => {
     }
 
     setValue(parsedValue);
-
-    if (!isNaN(parsedValue)) {
-      debounceUpdateQuantity(parsedValue);
-    }
+    debounceUpdateQuantity(parsedValue);
   };
 
   return (
@@ -84,6 +88,7 @@ const QuantityInput = (props) => {
 };
 
 QuantityInput.propTypes = {
+  debounceTimeOut: PropTypes.number,
   initialValue: PropTypes.number.isRequired,
   max: PropTypes.number,
   min: PropTypes.number,

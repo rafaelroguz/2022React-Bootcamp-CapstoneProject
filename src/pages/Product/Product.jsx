@@ -134,6 +134,7 @@ const Product = () => {
               <FlexContainer>
                 <Label>Qty:</Label>
                 <QuantityInput
+                  debounceTimeOut={0}
                   disabled={!stock}
                   initialValue={1}
                   max={stock}

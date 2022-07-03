@@ -36,6 +36,10 @@ const CartItem = ({
   const productUrl = `${ROUTES.PRODUCT}/${id}`;
 
   const handleChangeQuantity = (newQuantity) => {
+    if (isNaN(newQuantity)) {
+      return;
+    }
+
     if (newQuantity === 0) {
       onClickRemove(id);
       return;
