@@ -1,3 +1,4 @@
+import ErrorFallback from 'components/ErrorFallback';
 import Cart from 'pages/Cart';
 import Checkout from 'pages/Checkout';
 import Layout from 'components/Layout';
@@ -5,14 +6,15 @@ import Home from 'pages/Home';
 import Product from 'pages/Product';
 import Products from 'pages/Products';
 import SearchResults from 'pages/SearchResults';
-import React, { Fragment } from 'react';
+import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Toaster } from 'react-hot-toast';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from 'utils/routes';
 
 function App() {
   return (
-    <Fragment>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Layout>
         <Routes>
           <Route element={<Cart />} path={ROUTES.CART} />
@@ -25,7 +27,7 @@ function App() {
         </Routes>
       </Layout>
       <Toaster />
-    </Fragment>
+    </ErrorBoundary>
   );
 }
 
