@@ -1,5 +1,6 @@
 import Button from 'components/Button';
 import LoadingContainer from 'components/LoadingContainer';
+import QuantityInput from 'components/QuantityInput';
 import Slider from 'components/Slider';
 import Tag from 'components/Tag';
 import { addProductToCart } from 'features/cart/cart.slice';
@@ -27,7 +28,6 @@ import {
   Description,
   FlexContainer,
   ImageContainer,
-  Input,
   Label,
   Link,
   MainContainer,
@@ -86,17 +86,6 @@ const Product = () => {
     [images, name]
   );
 
-  const handleChangeQuantity = ({ target: { value } }) => {
-    const inputQuantity = parseInt(value, 10);
-
-    if (inputQuantity > stock) {
-      setQuantity(stock);
-      return;
-    }
-
-    setQuantity(inputQuantity);
-  };
-
   // Toast are not a requirement but I wanted to use them in some cases, so I added a library
   // to save development time. If this could have a negative score on the project, let me know
   const handleClickAddToCardButton = () => {
@@ -144,13 +133,12 @@ const Product = () => {
               </FlexContainer>
               <FlexContainer>
                 <Label>Qty:</Label>
-                <Input
+                <QuantityInput
                   disabled={!stock}
+                  initialValue={1}
                   max={stock}
                   min={1}
-                  type='number'
-                  value={quantity}
-                  onChange={handleChangeQuantity}
+                  onChangeQuantity={setQuantity}
                 />
                 <Label>{`Total: ${
                   isNaN(quantity)

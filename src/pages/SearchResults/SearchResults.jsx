@@ -2,7 +2,6 @@ import FeaturedItem from 'components/FeaturedItem';
 import LoadingContainer from 'components/LoadingContainer';
 import Pagination from 'components/Pagination';
 import { addProductToCart } from 'features/cart/cart.slice';
-import { getCategories } from 'features/categories/categories.actions';
 import {
   selectCategories,
   selectIsLoadingCategories,
