@@ -3,6 +3,7 @@ import LoadingContainer from 'components/LoadingContainer';
 import QuantityInput from 'components/QuantityInput';
 import Slider from 'components/Slider';
 import Tag from 'components/Tag';
+import { selectCartProductsIds } from 'features/cart/cart.selectors';
 import { addProductToCart } from 'features/cart/cart.slice';
 import {
   selectCategory,
@@ -46,8 +47,13 @@ const Product = () => {
   const currentProduct = useSelector(selectProduct);
   const isLoadingCategories = useSelector(selectIsLoadingCategories);
   const isLoadingProduct = useSelector(selectIsLoadingProducts);
+  const productsIds = useSelector(selectCartProductsIds);
+
   const [quantity, setQuantity] = useState(1);
 
+  const isAlreadyInCart = productsIds.some(
+    (product) => product.productId === productId
+  );
   const isLoading = isLoadingCategories || isLoadingProduct;
   const isSmallDevice = isMobile || isTablet;
 
@@ -99,7 +105,11 @@ const Product = () => {
       return;
     }
 
-    toast.success('Added product to cart.');
+    toast.success(
+      isAlreadyInCart
+        ? 'Updated product quantity in Cart'
+        : 'Added product to Cart.'
+    );
     dispatch(addProductToCart({ productId: currentProduct.id, quantity }));
   };
 
@@ -136,7 +146,7 @@ const Product = () => {
                 <QuantityInput
                   debounceTimeOut={0}
                   disabled={!stock}
-                  initialValue={1}
+                  initialValue={quantity}
                   max={stock}
                   min={1}
                   onChangeQuantity={setQuantity}
@@ -151,7 +161,7 @@ const Product = () => {
                 disabled={quantity < 1 || isNaN(quantity) || !stock}
                 onClick={handleClickAddToCardButton}
               >
-                Add to Cart
+                {isAlreadyInCart ? 'Update quantity' : 'Add to Cart'}
               </Button>
             </MainContainer>
           </Container>

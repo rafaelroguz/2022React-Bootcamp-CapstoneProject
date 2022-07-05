@@ -9,11 +9,11 @@ import {
   selectIsLoadingCart,
 } from 'features/cart/cart.selectors';
 import {
+  addProductToCart,
   clearCart,
   removeProductFromCart,
   setIsLoading,
   setProducts,
-  updateCartProduct,
 } from 'features/cart/cart.slice';
 import useGetScreenSize from 'hooks/useGetScreenSize';
 import { useLatestAPI } from 'hooks/useLatestAPI';
@@ -103,7 +103,7 @@ const Cart = () => {
 
   const handleChangeQuantity = (productId, quantity) => {
     toast.success(`Updated product quantity to ${quantity}!`);
-    dispatch(updateCartProduct({ productId, quantity }));
+    dispatch(addProductToCart({ productId, quantity }));
   };
 
   const handleClickClearCart = () => {
