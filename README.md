@@ -301,7 +301,7 @@ The bonus is a plus that helps us know you better and increments your final scor
 - Loading indicator appears on all the components that consume an API: 10 points
 - PropTypes are implemented correctly for all your components: 10 points
 
-## Final Deliverable
+## Final Deliverable - Finished
 
 - **Goal**: In this assignment, you will continue working on your Ecommerce Store. It should contain the following:
   - Product Detail Page (with “Add to Cart” functionality)

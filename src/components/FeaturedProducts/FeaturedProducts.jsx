@@ -1,6 +1,7 @@
 import Button from 'components/Button';
 import FeaturedItem from 'components/FeaturedItem';
 import LoadingContainer from 'components/LoadingContainer';
+import { addProductToCart } from 'features/cart/cart.slice';
 import {
   selectCategories,
   selectIsLoadingCategories,
@@ -11,7 +12,8 @@ import {
 } from 'features/products/products.selectors';
 import useGetScreenSize from 'hooks/useGetScreenSize';
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'utils/routes';
 import {
@@ -22,6 +24,7 @@ import {
 } from './FeaturedProducts.styled';
 
 const FeaturedProducts = () => {
+  const dispatch = useDispatch();
   const { isMobile } = useGetScreenSize();
   const navigate = useNavigate();
   const isLoadingCategories = useSelector(selectIsLoadingCategories);
@@ -59,7 +62,8 @@ const FeaturedProducts = () => {
   );
 
   const handleClickAddToCartButton = (productId) => {
-    console.log(`Product ${productId} added to cart`);
+    toast.success('Product added to cart!');
+    dispatch(addProductToCart({ productId, quantity: 1 }));
   };
 
   const handleClickViewAllProductsButton = () => navigate(ROUTES.PRODUCTS);

@@ -38,29 +38,6 @@ export const ImageContainer = styled.div`
   }
 `;
 
-export const Input = styled.input`
-  border: 1px solid ${colors.secondary};
-  border-radius: 4px;
-  box-sizing: border-box;
-  padding: 16px;
-  height: 48px;
-  width: 25%;
-
-  &:active,
-  &:focus {
-    outline: ${colors.secondary} solid 1px;
-  }
-
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  &[type='number'] {
-    -moz-appearance: textfield;
-  }
-`;
-
 export const Label = styled.h3`
   margin: 0;
   white-space: nowrap;
