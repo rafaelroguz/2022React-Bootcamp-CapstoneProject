@@ -1,8 +1,8 @@
 # 2022 React Bootcamp Capstone Project
 
-## Deployed on Heroku:
+## Deployed on Render:
 
-https://rafael-captstone.herokuapp.com/
+https://ecommerce-pv3u.onrender.com/
 
 ## Overview
 
